@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-10T06:20:29Z",
+  "updated": "2026-10-11T06:16:54Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -305,6 +305,21 @@
           "size": 5156045,
           "released": "2026-10-08",
           "notes": "rill.plot 0.3.1 (a fix on the 0.3 line; D113, D120)\n\n- Compose figure: double-click an SVG panel in Focus to touch it up. Hide elements (matplotlib's stray white boxes, for example), change fill and stroke colour, stroke width and opacity, edit real text (words, size, bold, italic), and move elements by dragging or with the arrow keys. A breadcrumb and an element list reach groups and hidden elements.\n- Touch-ups are stored in the panel and follow elements by their SVG id, so re-exporting the SVG from Inkscape keeps them; an edit whose element is gone is listed as no longer matching. The SVG file itself is never changed.\n- An SVG panel's Crop is now a button in the panel tools; image panels keep double-click crop.\n- Saved workflows pick this up on their next run; nothing they already produce changes.",
+          "core_hosted": true,
+          "requires_plugins": {
+            "rill.statistic": ">=1.0,<2"
+          },
+          "ui_api": 1
+        },
+        {
+          "version": "0.3.2",
+          "sdk_version": "1",
+          "min_rill": "0.4.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.plot-v0.3.2/rill.plot-0.3.2.rillp",
+          "sha256": "9a0a7f46309b8ed8431dcdc22a265f1d97eb5955fd0f43ceba48948a44aee713",
+          "size": 5160159,
+          "released": "2026-10-11",
+          "notes": "rill.plot 0.3.2 (a fix on the 0.3 line; D137)\n\n- Axis tick Step: in Edit figure (and Compose figure's chart edits), set Step next to Decimals on the X or Y tick labels to space ticks at whole multiples, for example 0, 5, 10, 15 on a 0-30 axis. Empty keeps automatic ticks.\n- Labels take the decimals the step needs; Decimals still wins. A step that would draw more than 200 ticks falls back to automatic ticks with a warning.\n- Log, category and heatmap-row axes, pair plots and angle charts ignore the step with a warning.\n- Saved figures look the same unless a step is set.",
           "core_hosted": true,
           "requires_plugins": {
             "rill.statistic": ">=1.0,<2"
