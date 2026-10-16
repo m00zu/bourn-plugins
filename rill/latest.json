@@ -1,17 +1,17 @@
 {
-  "version": "0.4.2",
-  "notes": "Rill 0.4.2 - Number fields keep focus while a node re-runs: hold an arrow key, or a spin arrow, to keep stepping a value (Draw shape and the other image editors).",
-  "pub_date": "2026-10-10T06:12:10Z",
-  "release_page": "https://github.com/m00zu/rill-plugins/releases/tag/rill-v0.4.2",
+  "version": "0.5.0",
+  "notes": "Rill 0.5.0 - Protocols with tables, thermocycler programs and plate layouts. Values keep their unit while you type, and mu or micro can be typed for \u00b5.",
+  "pub_date": "2026-10-16T11:05:35Z",
+  "release_page": "https://github.com/m00zu/rill-plugins/releases/tag/rill-v0.5.0",
   "dmg": {
-    "url": "https://github.com/m00zu/rill-plugins/releases/download/rill-v0.4.2/Rill-0.4.2-arm64.dmg",
-    "sha256": "c6070cdffbeedd52af1e55687bffd86ebd57cdc9810364a6cb0d087e05fea6fd",
-    "size": 100542099
+    "url": "https://github.com/m00zu/rill-plugins/releases/download/rill-v0.5.0/Rill-0.5.0-arm64.dmg",
+    "sha256": "1c9c4f1a1014a52db12423cd2e6cb35a954d78274ccf8299cf1ca182c3c497f8",
+    "size": 92000338
   },
   "platforms": {
     "darwin-aarch64": {
-      "url": "https://github.com/m00zu/rill-plugins/releases/download/rill-v0.4.2/Rill-0.4.2-arm64.app.tar.gz",
-      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHJpbGwtc2lnbgpSVVNoRmcrTDhoTGcrUm8zdzk0a2RVaHFWUFQ4NlJIT3c3dGUrN3R3R3ZrSmlPYUtuMHBzb2dwMFpUOG1FTzhGQlNwTGdqUjVwazVjYjBGRXlrV0pzSGQrUGtjWW9xOVBFUWc9CnRydXN0ZWQgY29tbWVudDogdGltZXN0YW1wOjE3OTE2MTI3MzAJZmlsZTpSaWxsLTAuNC4yLWFybTY0LmFwcC50YXIuZ3oJdmVyc2lvbjowLjQuMgo5UC9GN3V5RndwM3lNQUNvL3MxNGl5cU9JUEFKbFlFTGJONUdoQllWSVhhYXB5d01iWFM5TkREZ0ZQdDJpaWxDTzZ1cVJVaHFCdG41MnM1Z3JTeFRDdz09Cg=="
+      "url": "https://github.com/m00zu/rill-plugins/releases/download/rill-v0.5.0/Rill-0.5.0-arm64.app.tar.gz",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHJpbGwtc2lnbgpSVVNoRmcrTDhoTGcrU29vNnZjREpEUkw5OStSU2xGZW8yOUdMRjFpU0QwQWptekg1c09FQnN4bWNCRStUcC9aUWtWK0xoUm9PVnZHOU9PU0ttUmM3VktLNHdOVER4Smc5QVk9CnRydXN0ZWQgY29tbWVudDogdGltZXN0YW1wOjE3OTIxNDg3MzUJZmlsZTpSaWxsLTAuNS4wLWFybTY0LmFwcC50YXIuZ3oJdmVyc2lvbjowLjUuMAplSlQ2RXhaNWN3WmVyNkZHa3VHVUUyN0YyM2dzZ3ZmS1JEcUsxZXB1UTJqcUR6TlF3WDdZVlZJclduaEsvNDFlZEVSTENXclVZNkR6bWFaODU3aEZCUT09Cg=="
     }
   }
 }
