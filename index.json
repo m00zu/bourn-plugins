@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-11T06:16:54Z",
+  "updated": "2026-10-18T13:52:53Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -357,6 +357,24 @@
           "core_hosted": false,
           "requires_plugins": {},
           "ui_api": 1
+        }
+      ]
+    },
+    "rill.embed": {
+      "name": "rill.embed",
+      "description": "Finds what you mean in search, even in other words or the other language.",
+      "versions": [
+        {
+          "version": "0.1.0",
+          "sdk_version": "1",
+          "min_rill": "0.5.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.embed-v0.1.0/rill.embed-0.1.0.rillp",
+          "sha256": "c34f6d3e057f4c4bc85430e40bd01cfe10909e9047a8c44d781bd0dca0a83bef",
+          "size": 163238498,
+          "released": "2026-10-18",
+          "notes": "First release: smarter search for Rill itself (the Manual, the workflow library). Finds what you mean even in other words or the other language. Optional; about 160 MB; Mac (Apple Silicon) only for now.",
+          "core_hosted": true,
+          "requires_plugins": {}
         }
       ]
     }
