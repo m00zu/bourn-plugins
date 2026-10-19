@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-19T15:54:15Z",
+  "updated": "2026-10-19T16:02:13Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -73,6 +73,19 @@
           "notes": "Native code now ships with the plugin.",
           "core_hosted": true,
           "requires_plugins": {}
+        },
+        {
+          "version": "1.1.2",
+          "sdk_version": "1",
+          "min_rill": "0.3.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.statistic-v1.1.2/rill.statistic-1.1.2.rillp",
+          "sha256": "7ee9e97722475e04595477f88b77c68237f9084f95ba48f9dc84ecc66ea33050",
+          "size": 1266226,
+          "released": "2026-10-20",
+          "notes": "FRAP fit (mobile fraction, t\u00bd and the recovery models, a fit that cannot be made reported as a result) and Average curves (ids on one grid, mean with SEM/SD/95% CI band); Traditional Chinese (zh-TW) labels; search keywords and built-in tags. A refused table input names the setting to change and the text that is not a number.",
+          "core_hosted": true,
+          "requires_plugins": {},
+          "ui_api": 1
         }
       ]
     },
