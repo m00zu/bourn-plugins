@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-19T16:05:14Z",
+  "updated": "2026-10-19T16:06:41Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -262,6 +262,21 @@
           "size": 7770516,
           "released": "2026-10-10",
           "notes": "rill.image 0.4.1 (a fix on the 0.4 line)\n\n- Number fields in the image editors (Draw shape's style fields, rule values, toggle min/max, threshold, kernel cells) keep focus while the node re-runs, so holding an arrow key or a spin arrow keeps stepping the value. A held Draw shape field is one undo step.\n- Nothing a saved workflow produces changes. Works best with Rill 0.4.2; on 0.4.1 the fields behave as before.",
+          "core_hosted": true,
+          "requires_plugins": {
+            "rill.statistic": ">=1.0,<2"
+          },
+          "ui_api": 1
+        },
+        {
+          "version": "0.8.0",
+          "sdk_version": "1",
+          "min_rill": "0.5.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.image-v0.8.0/rill.image-0.8.0.rillp",
+          "sha256": "58411a440d2a032117a4408c0ebda0c85628fc67e3a2ac0f61feb126e114d797",
+          "size": 8346148,
+          "released": "2026-10-20",
+          "notes": "FRAP: Read time-lapse (a whole .oir or TIFF time-lapse as one item, previewed with Play), FRAP regions, FRAP normalize; Save time-lapse (ImageJ TIFF or GIF) and readers that name the reader a file needs. FRAP regions and ROI mask draw with one region editor: each region a curve plus brushed minus erased pixels, with pen (\u2325-click corners), ellipse, rectangle, lasso, brush and eraser that change the region, Select to resize and rotate; regions saved by earlier versions convert with the same pixels. Traditional Chinese (zh-TW) labels; search keywords and built-in tags.",
           "core_hosted": true,
           "requires_plugins": {
             "rill.statistic": ">=1.0,<2"
