@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-19T16:02:13Z",
+  "updated": "2026-10-19T16:05:14Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -371,6 +371,21 @@
           "size": 5160159,
           "released": "2026-10-11",
           "notes": "rill.plot 0.3.2 (a fix on the 0.3 line; D137)\n\n- Axis tick Step: in Edit figure (and Compose figure's chart edits), set Step next to Decimals on the X or Y tick labels to space ticks at whole multiples, for example 0, 5, 10, 15 on a 0-30 axis. Empty keeps automatic ticks.\n- Labels take the decimals the step needs; Decimals still wins. A step that would draw more than 200 ticks falls back to automatic ticks with a warning.\n- Log, category and heatmap-row axes, pair plots and angle charts ignore the step with a warning.\n- Saved figures look the same unless a step is set.",
+          "core_hosted": true,
+          "requires_plugins": {
+            "rill.statistic": ">=1.0,<2"
+          },
+          "ui_api": 1
+        },
+        {
+          "version": "0.3.5",
+          "sdk_version": "1",
+          "min_rill": "0.4.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.plot-v0.3.5/rill.plot-0.3.5.rillp",
+          "sha256": "1778dedf92389f6e7b4babd8afdb3c6febadb4c34ca8613e5c6ae8a21f9d1f0d",
+          "size": 5171589,
+          "released": "2026-10-20",
+          "notes": "Traditional Chinese (zh-TW) labels and figure editor messages (English where the host has no translations); search keywords and built-in tags. A refused table input names the setting to change and the text that is not a number.",
           "core_hosted": true,
           "requires_plugins": {
             "rill.statistic": ">=1.0,<2"
