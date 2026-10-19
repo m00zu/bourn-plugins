@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-18T13:52:53Z",
+  "updated": "2026-10-19T15:52:54Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -76,6 +76,18 @@
           "size": 1526,
           "released": "2026-10-06",
           "notes": "First release on the plugin channel.",
+          "core_hosted": true,
+          "requires_plugins": {}
+        },
+        {
+          "version": "1.0.2",
+          "sdk_version": "1",
+          "min_rill": "0.1.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.files-v1.0.2/rill.files-1.0.2.rillp",
+          "sha256": "73bcbfdd6b414b959827a063d91f6e6049ec5494a6ee683a7e7b52335b02cda2",
+          "size": 1931,
+          "released": "2026-10-19",
+          "notes": "Traditional Chinese (zh-TW) labels, ports and categories; search keywords and built-in tags for every node.",
           "core_hosted": true,
           "requires_plugins": {}
         }
