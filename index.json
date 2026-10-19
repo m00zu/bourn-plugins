@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-19T15:52:54Z",
+  "updated": "2026-10-19T15:53:55Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -118,6 +118,19 @@
           "size": 216046,
           "released": "2026-10-07",
           "notes": "Its node UI now ships with the plugin instead of Rill's core (D106), so UI fixes arrive as plugin releases. Needs Rill 0.3.0.",
+          "core_hosted": true,
+          "requires_plugins": {},
+          "ui_api": 1
+        },
+        {
+          "version": "1.0.3",
+          "sdk_version": "1",
+          "min_rill": "0.3.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.script-v1.0.3/rill.script-1.0.3.rillp",
+          "sha256": "30a078656afebdf9c07c987c9dd0c62e7e492d04b1c20673d5ea8a064b877736",
+          "size": 218644,
+          "released": "2026-10-19",
+          "notes": "Traditional Chinese (zh-TW) labels and editor messages (English where the host has no translations); search keywords and built-in tags.",
           "core_hosted": true,
           "requires_plugins": {},
           "ui_api": 1
