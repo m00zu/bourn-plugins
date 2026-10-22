@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-19T16:06:41Z",
+  "updated": "2026-10-22T17:25:24Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -277,6 +277,21 @@
           "size": 8346148,
           "released": "2026-10-20",
           "notes": "FRAP: Read time-lapse (a whole .oir or TIFF time-lapse as one item, previewed with Play), FRAP regions, FRAP normalize; Save time-lapse (ImageJ TIFF or GIF) and readers that name the reader a file needs. FRAP regions and ROI mask draw with one region editor: each region a curve plus brushed minus erased pixels, with pen (\u2325-click corners), ellipse, rectangle, lasso, brush and eraser that change the region, Select to resize and rotate; regions saved by earlier versions convert with the same pixels. Traditional Chinese (zh-TW) labels; search keywords and built-in tags.",
+          "core_hosted": true,
+          "requires_plugins": {
+            "rill.statistic": ">=1.0,<2"
+          },
+          "ui_api": 1
+        },
+        {
+          "version": "0.11.1",
+          "sdk_version": "1",
+          "min_rill": "0.5.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.image-v0.11.1/rill.image-0.11.1.rillp",
+          "sha256": "d9181b7ba9bf39e70bc09f3b966a5ef0705b12a21fa2b7b32607b16d46a1fa19",
+          "size": 8309322,
+          "released": "2026-10-23",
+          "notes": "rill.image 0.11.1 (since 0.8.0):\n- The time-lapse and FRAP nodes moved to the new rill.video plugin (D195).\n- Split channels matches channels by capture (laser and emission): a port per ticked channel, inactive when a file lacks it, or a List named by your own names (D196).\n- FRAP reference leaves out the bleached region; XY line Overlay and Mark (D178, D181).\n- The Scale bar's drawing is shared with rill.video's video overlays; its output is unchanged (D197).",
           "core_hosted": true,
           "requires_plugins": {
             "rill.statistic": ">=1.0,<2"
