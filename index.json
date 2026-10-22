@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-22T17:25:24Z",
+  "updated": "2026-10-22T17:26:45Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -471,6 +471,27 @@
           "notes": "First release: smarter search for Rill itself (the Manual, the workflow library). Finds what you mean even in other words or the other language. Optional; about 160 MB; Mac (Apple Silicon) only for now.",
           "core_hosted": true,
           "requires_plugins": {}
+        }
+      ]
+    },
+    "rill.video": {
+      "name": "rill.video",
+      "description": "",
+      "versions": [
+        {
+          "version": "0.3.0",
+          "sdk_version": "1",
+          "min_rill": "0.5.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.video-v0.3.0/rill.video-0.3.0.rillp",
+          "sha256": "3ea002e2b0757e5361df9c4ac55b82eb1c85f5f9b9481d3ba6fd21ef30e412cd",
+          "size": 937022,
+          "released": "2026-10-23",
+          "notes": "rill.video 0.3.0, first release:\n- The time-lapse and FRAP nodes, moved from rill.image (D195).\n- Read time-lapse reads every channel; Split channels picks them by capture (D196).\n- Save time-lapse writes MP4 (H.264, encoded in pure Rust) for PowerPoint and QuickTime, with a time stamp (zero at the bleach or the first frame) and a scale bar, both draggable in the preview; frames per second or real time (D197).",
+          "core_hosted": true,
+          "requires_plugins": {
+            "rill.image": ">=0.11.1,<0.12"
+          },
+          "ui_api": 1
         }
       ]
     }
