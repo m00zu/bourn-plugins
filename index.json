@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-22T17:26:45Z",
+  "updated": "2026-10-23T05:22:51Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -416,6 +416,21 @@
           "size": 5171589,
           "released": "2026-10-20",
           "notes": "Traditional Chinese (zh-TW) labels and figure editor messages (English where the host has no translations); search keywords and built-in tags. A refused table input names the setting to change and the text that is not a number.",
+          "core_hosted": true,
+          "requires_plugins": {
+            "rill.statistic": ">=1.0,<2"
+          },
+          "ui_api": 1
+        },
+        {
+          "version": "0.5.1",
+          "sdk_version": "1",
+          "min_rill": "0.4.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.plot-v0.5.1/rill.plot-0.5.1.rillp",
+          "sha256": "60a80a9d7b43dd20b19787096be8fa11d81f366b4e252bd12c8b6cb7cb682a1e",
+          "size": 5176066,
+          "released": "2026-10-23",
+          "notes": "Figures in Reports: the plugin offers its chart layout and figure layout maths to Rill's report editor (figureServices). XY line overlay and marks (off by default); figure facts for Results. Saved workflows on 0.3 stay on 0.3 until updated.",
           "core_hosted": true,
           "requires_plugins": {
             "rill.statistic": ">=1.0,<2"
