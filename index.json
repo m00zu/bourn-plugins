@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-23T05:22:51Z",
+  "updated": "2026-10-24T07:19:42Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -506,6 +506,25 @@
           "requires_plugins": {
             "rill.image": ">=0.11.1,<0.12"
           },
+          "ui_api": 1
+        }
+      ]
+    },
+    "rill.sequence": {
+      "name": "rill.sequence",
+      "description": "",
+      "versions": [
+        {
+          "version": "0.1.0",
+          "sdk_version": "1",
+          "min_rill": "0.5.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.sequence-v0.1.0/rill.sequence-0.1.0.rillp",
+          "sha256": "a01cee253af194e1fff3887ced354b2623864969f01cae35bc6de700f906f46b",
+          "size": 509078,
+          "released": "2026-10-24",
+          "notes": "The former `rill-align` sample plugin, renamed and grown into Rill's sequence plugin. It is a clean break: workflows\nsaved with `rill-align`'s nodes (`align.read`, `align.kalign`, `align.save`) are not migrated; their nodes are now\n`sequence.read`, `sequence.align` and `sequence.save`. The Sequence viewer (`plot.alignment`) keeps its id.\n\n- Read sequences reads a plain text file (a Sanger read) as one sequence named after the file; one sequence per line\n  is the explicit format \"lines\".\n- Sequence sets may carry a type per row; Align refuses a set of mixed types, and a name with two sequences, naming them.\n- New: Sequences (a typed or pasted reference library and collector) and Sequence selection (the wanted stretch of a\n  read, matched against the references by rill_sequence_native).\n- Sequence selection writes its proposal and every candidate (identity, coverage, rank, which was proposed) to its outputs\n  (`Match`, `Candidates`), so review shows what the node proposed and the run record says why a reference was picked.\n- A held review choice that no longer matches the read, the references or the Output (or is off the codons of its frame\n  when the output is protein) refuses the item in words; it is never replaced by the proposal. When no reference is clearly\n  ahead the best match's stretch is proposed, with the reference left unpicked.\n- Read sequences types each record by its letters: a file mixing DNA and protein is a mixed set with a type per row.",
+          "core_hosted": false,
+          "requires_plugins": {},
           "ui_api": 1
         }
       ]
