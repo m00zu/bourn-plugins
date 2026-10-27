@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-27T14:42:28Z",
+  "updated": "2026-10-27T14:44:27Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -485,6 +485,21 @@
           "size": 937022,
           "released": "2026-10-23",
           "notes": "rill.video 0.3.0, first release:\n- The time-lapse and FRAP nodes, moved from rill.image (D195).\n- Read time-lapse reads every channel; Split channels picks them by capture (D196).\n- Save time-lapse writes MP4 (H.264, encoded in pure Rust) for PowerPoint and QuickTime, with a time stamp (zero at the bleach or the first frame) and a scale bar, both draggable in the preview; frames per second or real time (D197).",
+          "core_hosted": true,
+          "requires_plugins": {
+            "rill.image": ">=0.11.1,<0.12"
+          },
+          "ui_api": 1
+        },
+        {
+          "version": "0.3.1",
+          "sdk_version": "1",
+          "min_rill": "0.5.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.video-v0.3.1/rill.video-0.3.1.rillp",
+          "sha256": "7e9684eb93fb5fcdf830eee8e1824286f726092044f4d587e6ddd1df4de7fbf6",
+          "size": 937814,
+          "released": "2026-10-27",
+          "notes": "Read time-lapse records every channel of the .oir or TIFF, so the channel table can list the ones not read to tick.",
           "core_hosted": true,
           "requires_plugins": {
             "rill.image": ">=0.11.1,<0.12"
