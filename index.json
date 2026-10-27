@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-24T07:19:42Z",
+  "updated": "2026-10-27T14:42:28Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -292,6 +292,21 @@
           "size": 8309322,
           "released": "2026-10-23",
           "notes": "rill.image 0.11.1 (since 0.8.0):\n- The time-lapse and FRAP nodes moved to the new rill.video plugin (D195).\n- Split channels matches channels by capture (laser and emission): a port per ticked channel, inactive when a file lacks it, or a List named by your own names (D196).\n- FRAP reference leaves out the bleached region; XY line Overlay and Mark (D178, D181).\n- The Scale bar's drawing is shared with rill.video's video overlays; its output is unchanged (D197).",
+          "core_hosted": true,
+          "requires_plugins": {
+            "rill.statistic": ">=1.0,<2"
+          },
+          "ui_api": 1
+        },
+        {
+          "version": "0.11.3",
+          "sdk_version": "1",
+          "min_rill": "0.5.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.image-v0.11.3/rill.image-0.11.3.rillp",
+          "sha256": "805453bd17409ed5492665191551a2a81bdb85f10f67d131ca0efe0b465ac6c3",
+          "size": 8310084,
+          "released": "2026-10-27",
+          "notes": "Read OIR and Read time-lapse: tick the channels to read in the channel table, which lists every channel of the file. Colour swatches have an outline, so white and black channels show in either theme.",
           "core_hosted": true,
           "requires_plugins": {
             "rill.statistic": ">=1.0,<2"
