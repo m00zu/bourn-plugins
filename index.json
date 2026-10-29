@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-27T14:44:27Z",
+  "updated": "2026-10-29T11:17:11Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -83,6 +83,19 @@
           "size": 1266226,
           "released": "2026-10-20",
           "notes": "FRAP fit (mobile fraction, t\u00bd and the recovery models, a fit that cannot be made reported as a result) and Average curves (ids on one grid, mean with SEM/SD/95% CI band); Traditional Chinese (zh-TW) labels; search keywords and built-in tags. A refused table input names the setting to change and the text that is not a number.",
+          "core_hosted": true,
+          "requires_plugins": {},
+          "ui_api": 1
+        },
+        {
+          "version": "1.4.1",
+          "sdk_version": "1",
+          "min_rill": "0.3.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.statistic-v1.4.1/rill.statistic-1.4.1.rillp",
+          "sha256": "f712cee75d28d7e661c31e20c9f6ac06f9f5587ba97b5a16c83876bfd535f1b5",
+          "size": 1513646,
+          "released": "2026-10-29",
+          "notes": "New analyses: Paired compare (paired t, Wilcoxon signed-rank, repeated-measures ANOVA with Mauchly and Greenhouse\u2013Geisser / Huynh\u2013Feldt, Friedman; wide or long with a Subject column), paired t and Wilcoxon in Pairwise, One-sample test, Cohen's kappa, weighted kappa and ICC in Agreement, McNemar in Contingency, ROC (AUC with DeLong SE and interval, Youden cutoff, paired DeLong test), Cox regression (Efron or Breslow ties, strata), ANCOVA (Type II / III, adjusted means, slopes check), Power / sample size (t tests, one-way ANOVA, two proportions; solves n, power, effect size or alpha, with a power curve) and MANOVA (Pillai, Wilks, Hotelling\u2013Lawley, Roy; covariates; per-outcome follow-ups). Results match SciPy / statsmodels; where those are wrong (large covariate offsets, far tails, failed solves) the error is fixed and recorded. Native stats_process_rs 0.4.0, faster than the references. Also since 1.1.2: facts in every result, Two-way ANOVA scale (raw/log) and model output, FRAP fits kept and marked when extrapolated. zh-TW labels throughout.",
           "core_hosted": true,
           "requires_plugins": {},
           "ui_api": 1
