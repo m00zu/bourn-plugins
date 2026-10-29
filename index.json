@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-29T11:17:11Z",
+  "updated": "2026-10-29T14:42:39Z",
   "plugins": {
     "rill.table": {
       "name": "rill.table",
@@ -96,6 +96,19 @@
           "size": 1513646,
           "released": "2026-10-29",
           "notes": "New analyses: Paired compare (paired t, Wilcoxon signed-rank, repeated-measures ANOVA with Mauchly and Greenhouse\u2013Geisser / Huynh\u2013Feldt, Friedman; wide or long with a Subject column), paired t and Wilcoxon in Pairwise, One-sample test, Cohen's kappa, weighted kappa and ICC in Agreement, McNemar in Contingency, ROC (AUC with DeLong SE and interval, Youden cutoff, paired DeLong test), Cox regression (Efron or Breslow ties, strata), ANCOVA (Type II / III, adjusted means, slopes check), Power / sample size (t tests, one-way ANOVA, two proportions; solves n, power, effect size or alpha, with a power curve) and MANOVA (Pillai, Wilks, Hotelling\u2013Lawley, Roy; covariates; per-outcome follow-ups). Results match SciPy / statsmodels; where those are wrong (large covariate offsets, far tails, failed solves) the error is fixed and recorded. Native stats_process_rs 0.4.0, faster than the references. Also since 1.1.2: facts in every result, Two-way ANOVA scale (raw/log) and model output, FRAP fits kept and marked when extrapolated. zh-TW labels throughout.",
+          "core_hosted": true,
+          "requires_plugins": {},
+          "ui_api": 1
+        },
+        {
+          "version": "1.5.0",
+          "sdk_version": "1",
+          "min_rill": "0.3.0",
+          "url": "https://github.com/m00zu/rill-plugins/releases/download/rill.statistic-v1.5.0/rill.statistic-1.5.0.rillp",
+          "sha256": "73bd52945bf940f555820893bc91822a208e66de1ea855df0b77d97acb0f8817",
+          "size": 1548918,
+          "released": "2026-10-29",
+          "notes": "1.5.0: Linear regression, Plot's polynomial fits and Model predict fit in a centred, scaled basis (D223), so high-degree fits on large x (calendar years) give correct t, p and predictions; collinear designs are refused by name. Needs stats_process_rs 0.4.1 (bundled).",
           "core_hosted": true,
           "requires_plugins": {},
           "ui_api": 1
