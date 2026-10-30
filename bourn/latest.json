@@ -1,0 +1,17 @@
+{
+  "version": "0.5.0",
+  "notes": "Rill is now Bourn. Same app, new name and icon.",
+  "pub_date": "2026-10-30T12:56:48Z",
+  "release_page": "https://github.com/m00zu/bourn-plugins/releases/tag/bourn-v0.5.0",
+  "dmg": {
+    "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn-v0.5.0/Bourn-0.5.0-arm64.dmg",
+    "sha256": "5ae43d6a36c955a4d780fd8757d9a820f4efae1944ca5a9cb26f7b2b96108e99",
+    "size": 114614516
+  },
+  "platforms": {
+    "darwin-aarch64": {
+      "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn-v0.5.0/Bourn-0.5.0-arm64.app.tar.gz",
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIGJvdXJuLXNpZ24KUlVTaEZnK0w4aExnK1ZtZ2M3d0g2em8rTGJvY2hoMUVsd1c0TjBHK1Z0WE5aL2tXYllzc3FMWS9SSEVpbW9LU2F4SmhxZUxORC9DaUcxTFVsaC9mMkFSTzI3dkNHaHpZOFFNPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzkzMzY1MDA3CWZpbGU6Qm91cm4tMC41LjAtYXJtNjQuYXBwLnRhci5negl2ZXJzaW9uOjAuNS4wCk5UcGJxUXl3bXFra0VxaVdsUFlSdkJiVHkzQXkvUzBxVDYrWWVQUnRXTDZHYVRaeXhnOEIwQWozVkd4bGNjbmpHTDYyRVBWRElXTTFTNXZscndUbkNBPT0K"
+    }
+  }
+}
