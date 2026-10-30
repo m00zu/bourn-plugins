@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-30T12:37:16Z",
+  "updated": "2026-10-30T12:38:12Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -15,6 +15,25 @@
           "size": 55112,
           "released": "2026-10-30",
           "notes": "Republished as bourn.table (Rill is now Bourn).",
+          "core_hosted": true,
+          "requires_plugins": {},
+          "ui_api": 1
+        }
+      ]
+    },
+    "bourn.statistic": {
+      "name": "bourn.statistic",
+      "description": "",
+      "versions": [
+        {
+          "version": "1.5.0",
+          "sdk_version": "1",
+          "min_bourn": "0.3.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.statistic-v1.5.0/bourn.statistic-1.5.0.bournp",
+          "sha256": "dff97b738a4f625c2769bf6c5e8622b7aae54b0654da47a2f088c7ede7e3f5c8",
+          "size": 1548930,
+          "released": "2026-10-30",
+          "notes": "Republished as bourn.statistic (Rill is now Bourn).",
           "core_hosted": true,
           "requires_plugins": {},
           "ui_api": 1
