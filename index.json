@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-30T12:38:52Z",
+  "updated": "2026-10-30T12:39:39Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -55,6 +55,25 @@
           "notes": "Republished as bourn.files (Rill is now Bourn).",
           "core_hosted": true,
           "requires_plugins": {}
+        }
+      ]
+    },
+    "bourn.script": {
+      "name": "bourn.script",
+      "description": "",
+      "versions": [
+        {
+          "version": "1.0.3",
+          "sdk_version": "1",
+          "min_bourn": "0.3.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.script-v1.0.3/bourn.script-1.0.3.bournp",
+          "sha256": "8cdeeb67e563d0d35507be25ae1eb4f29fd2f0dbf44309bb6ba65c115f3b18ff",
+          "size": 218656,
+          "released": "2026-10-30",
+          "notes": "Republished as bourn.script (Rill is now Bourn).",
+          "core_hosted": true,
+          "requires_plugins": {},
+          "ui_api": 1
         }
       ]
     }
