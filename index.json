@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-30T12:40:37Z",
+  "updated": "2026-10-30T12:42:44Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -93,6 +93,27 @@
           "core_hosted": true,
           "requires_plugins": {
             "bourn.statistic": ">=1.0,<2"
+          },
+          "ui_api": 1
+        }
+      ]
+    },
+    "bourn.plot": {
+      "name": "bourn.plot",
+      "description": "",
+      "versions": [
+        {
+          "version": "0.7.0",
+          "sdk_version": "1",
+          "min_bourn": "0.4.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.plot-v0.7.0/bourn.plot-0.7.0.bournp",
+          "sha256": "02d643f9da8a8a99b0036371c6f635d16b28ca1d21ea2fc2389edfb71e761e02",
+          "size": 5195833,
+          "released": "2026-10-30",
+          "notes": "Republished as bourn.plot (Rill is now Bourn).",
+          "core_hosted": true,
+          "requires_plugins": {
+            "bourn.statistic": ">=1.5,<2"
           },
           "ui_api": 1
         }
