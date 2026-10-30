@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-30T12:43:22Z",
+  "updated": "2026-10-30T12:47:49Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -134,6 +134,27 @@
           "notes": "Republished as bourn.embed (Rill is now Bourn).",
           "core_hosted": true,
           "requires_plugins": {}
+        }
+      ]
+    },
+    "bourn.video": {
+      "name": "bourn.video",
+      "description": "",
+      "versions": [
+        {
+          "version": "0.3.1",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.video-v0.3.1/bourn.video-0.3.1.bournp",
+          "sha256": "be808933d8d4959d8bdc8f0a87c3286442d69cd627eab6a0e7265080a1335467",
+          "size": 938143,
+          "released": "2026-10-30",
+          "notes": "Republished as bourn.video (Rill is now Bourn).",
+          "core_hosted": true,
+          "requires_plugins": {
+            "bourn.image": ">=0.11.1,<0.12"
+          },
+          "ui_api": 1
         }
       ]
     }
