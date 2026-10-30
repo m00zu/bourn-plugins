@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-30T12:39:39Z",
+  "updated": "2026-10-30T12:40:37Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -73,6 +73,27 @@
           "notes": "Republished as bourn.script (Rill is now Bourn).",
           "core_hosted": true,
           "requires_plugins": {},
+          "ui_api": 1
+        }
+      ]
+    },
+    "bourn.image": {
+      "name": "bourn.image",
+      "description": "",
+      "versions": [
+        {
+          "version": "0.11.4",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.image-v0.11.4/bourn.image-0.11.4.bournp",
+          "sha256": "84ecd49ff43f54fff37175677b52d4e320630979c845d1d95a66dbbd9f51700c",
+          "size": 8310410,
+          "released": "2026-10-30",
+          "notes": "Republished as bourn.image (Rill is now Bourn).",
+          "core_hosted": true,
+          "requires_plugins": {
+            "bourn.statistic": ">=1.0,<2"
+          },
           "ui_api": 1
         }
       ]
