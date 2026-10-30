@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-30T12:42:44Z",
+  "updated": "2026-10-30T12:43:22Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -116,6 +116,24 @@
             "bourn.statistic": ">=1.5,<2"
           },
           "ui_api": 1
+        }
+      ]
+    },
+    "bourn.embed": {
+      "name": "bourn.embed",
+      "description": "Finds what you mean in search, even in other words or the other language.",
+      "versions": [
+        {
+          "version": "0.1.0",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.embed-v0.1.0/bourn.embed-0.1.0.bournp",
+          "sha256": "7abd96244380344f92f7fa7a09268f3ba901c79fddf3022171cb37c1aebaf483",
+          "size": 163237891,
+          "released": "2026-10-30",
+          "notes": "Republished as bourn.embed (Rill is now Bourn).",
+          "core_hosted": true,
+          "requires_plugins": {}
         }
       ]
     }
