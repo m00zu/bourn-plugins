@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-31T08:14:43Z",
+  "updated": "2026-10-31T08:15:54Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -1675,6 +1675,94 @@
           "requires_plugins": {
             "bourn.image": ">=0.11.1,<0.12"
           },
+          "ui_api": 1
+        },
+        {
+          "version": "0.3.3",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.video-v0.3.3/bourn.video-0.3.3.bournp",
+          "sha256": "638aac08abbebe4e28376babace95e6859ca42a50b6635720a108c882a557acc",
+          "size": 981632,
+          "released": "2026-10-31",
+          "notes": "Works with bourn.image 0.12 (range widened to <0.13). Describe actions for the assistant; setting descriptions say what each setting does, in units.",
+          "core_hosted": true,
+          "requires_plugins": {
+            "bourn.image": ">=0.11.1,<0.13"
+          },
+          "adds": {
+            "nodes": [
+              {
+                "id": "video.read_time_lapse",
+                "name": "Read time-lapse",
+                "description": "Read a whole time-lapse, an Olympus/Evident .oir file or a TIFF stack, as one item: every frame of the channels chosen (every channel when Channels is empty), each frame's time in seconds, the pixel size, and the bleach (stimulation) frame when the .oir records it. A TIFF's pages are its frames; its interval comes from the ImageJ or OME description. A typed Interval replaces the file's times with an even grid. The stack's size in memory is limited to 2 GB. In a batch, each video's stack stays in working storage while the run lasts, so a batch of large videos may need working storage raised in settings.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "stack"
+                  ]
+                }
+              },
+              {
+                "id": "video.split_channels",
+                "name": "Split channels",
+                "description": "Split a several-channel time-lapse into one time-lapse per channel, each keeping every frame's time, the bleach frame, the pixel size and the channel's capture. Channels are known by how they were captured (laser and emission window), so the same dye goes to the same output in every file. Outputs Each channel gives one output per ticked channel, named by the table; a file without that channel leaves it inactive and what is wired after it does not run for that file. Outputs List gives the ticked channels the file has as one list named by the table, so a Save's {key} names each file by channel.",
+                "ports": {
+                  "inputs": [
+                    "stack"
+                  ],
+                  "outputs": [
+                    "ch1",
+                    "ch2",
+                    "ch3"
+                  ]
+                }
+              },
+              {
+                "id": "video.save_time_lapse",
+                "name": "Save time-lapse",
+                "description": "Write a time-lapse to a granted save location; the file name's extension picks the format. TIFF (.tif) keeps every frame exactly, pixels unchanged, as an ImageJ stack: Fiji and Read time-lapse open it with its frame interval, pixel size and the preview's brightness. Uneven frame times are written as their mean interval, and the bleach frame is not kept. MP4 (.mp4) and GIF (.gif) are the video as the preview plays it, 8-bit, for slides and talks: MP4 plays in PowerPoint, QuickTime and Windows players; GIF loops. They can carry a scale bar and a time stamp (from the bleach, or the first frame), dragged into place on the preview. For viewing, never for measuring.",
+                "ports": {
+                  "inputs": [
+                    "stack"
+                  ],
+                  "outputs": [
+                    "written"
+                  ]
+                }
+              },
+              {
+                "id": "video.frap_normalize",
+                "name": "FRAP normalize",
+                "description": "FRAP regions' intensities as a recovery curve: background subtracted, then double normalized (bleached \u00f7 reference, each over its pre-bleach mean) or single (bleached only), so the pre-bleach level is 1. Checks the bleach depth and gap ratio (easyFRAP-web's, under 0.6 is flagged). The curve runs from before the bleach (negative times) to the end: for a figure of the whole curve, XY line with Mark at x 0.",
+                "ports": {
+                  "inputs": [
+                    "intensities"
+                  ],
+                  "outputs": [
+                    "curve",
+                    "checks"
+                  ]
+                }
+              },
+              {
+                "id": "video.frap_regions",
+                "name": "FRAP regions",
+                "description": "Draw the bleached spot, a reference region in the cell and a background region on a time-lapse, then measure each one's mean on every frame. Each region is one outline you draw and reshape, with brush and eraser marks that add to it or cut from it. The bleached region can follow the spot, the others stay in place or move between frames drawn by hand. Bleach frame 0 takes the file's or finds the largest drop; Interval 0 takes the file's frame times. In a loop, each video keeps its own regions and stops until drawn.",
+                "ports": {
+                  "inputs": [
+                    "stack"
+                  ],
+                  "outputs": [
+                    "intensities"
+                  ]
+                }
+              }
+            ],
+            "pages": [],
+            "records": []
+          },
+          "description": "Works with bourn.image 0.12 (range widened to <0.13). Describe actions for the assistant; setting descriptions say what each setting does, in units.",
           "ui_api": 1
         }
       ]
