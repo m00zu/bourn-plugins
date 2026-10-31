@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-30T12:48:04Z",
+  "updated": "2026-10-31T01:49:27Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -174,6 +174,58 @@
           "core_hosted": false,
           "requires_plugins": {},
           "ui_api": 1
+        }
+      ]
+    },
+    "bourn.sheets": {
+      "name": "bourn.sheets",
+      "description": "Open, edit and share spreadsheets in Bourn, and read a sheet into a workflow.",
+      "versions": [
+        {
+          "version": "0.1.0",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.sheets-v0.1.0/bourn.sheets-0.1.0.bournp",
+          "sha256": "9c696fa1343acb71b72312b8fccde7824870f0780e0b5f6003854be4c28ac2d2",
+          "size": 1283801,
+          "released": "2026-10-31",
+          "notes": "Bourn Sheets, a spreadsheet tool on the Tools tab (D227). A workbook is a Bourn record: readable JSON is what is kept,\nwith every saved version listed.\n\n- A grid (IronCalc) with formulas, number formats, merges and frozen panes; English and Traditional Chinese.\n- Import an `.xlsx` or a `.csv` (UTF-8, or UTF-16 with its mark); what a workbook cannot keep is listed on import.\n  Export `.xlsx`, or one sheet as `.csv` (UTF-8 with a mark, values only).\n- One person edits a workbook at a time; others see it read-only with the editor's name.\n- The Read sheet node reads a range of one saved version of a workbook into a table.\n- A workbook is at most 8 MB.",
+          "core_hosted": false,
+          "requires_plugins": {},
+          "adds": {
+            "nodes": [
+              {
+                "id": "sheets.read",
+                "name": "Read sheet",
+                "description": "Read a sheet, a range or a named range of a workbook in Sheets as a table of its computed values. It always reads the saved version you chose, so a later edit never changes a finished run.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              }
+            ],
+            "pages": [
+              {
+                "id": "sheets",
+                "title": "Bourn Sheets",
+                "description": "Open, edit and share spreadsheets, and import or export Excel files.",
+                "needs": [
+                  "records:workbook",
+                  "actions",
+                  "files.read"
+                ]
+              }
+            ],
+            "records": [
+              {
+                "kind": "workbook",
+                "title": "Workbook"
+              }
+            ]
+          },
+          "description": "Open, edit and share spreadsheets in Bourn, and read a sheet into a workflow."
         }
       ]
     }
