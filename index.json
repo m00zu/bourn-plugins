@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-10-31T08:12:55Z",
+  "updated": "2026-10-31T08:14:43Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -94,6 +94,1162 @@
           "requires_plugins": {
             "bourn.statistic": ">=1.0,<2"
           },
+          "ui_api": 1
+        },
+        {
+          "version": "0.12.0",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.image-v0.12.0/bourn.image-0.12.0.bournp",
+          "sha256": "ff7bfd24c79f474efb2621713e00ee5f28080b5c9312346e249e0a60f2e4987b",
+          "size": 8400619,
+          "released": "2026-10-31",
+          "notes": "Western bands: a node that finds lanes and bands on a blot (size-independent detection, a drawn frame or black edge is not a lane, touching lanes split at their dips), names them from a ladder and a loading control, and gives a lane table, groups and the blot; lanes can come from an experiment's gel layout. Canvas and Focus views with zoom and pan and a lane editor under the blot. Western panel: a figure of cropped strips with the uncropped blot, its levels recorded in the method record. Requires bourn.plot 0.8. Describe actions for the assistant; setting descriptions in units.",
+          "core_hosted": true,
+          "requires_plugins": {
+            "bourn.statistic": ">=1.0,<2",
+            "bourn.plot": ">=0.8,<0.9"
+          },
+          "adds": {
+            "nodes": [
+              {
+                "id": "image.read",
+                "name": "Read image",
+                "description": "Read a TIFF, PNG, JPEG, GIF, BMP, WebP, AVIF or JPEG 2000 image from your workspace or the shared space. Calibration and bit depth come from the TIFF's ImageJ description, OME-XML or resolution tags (a stack's calibration, recorded on its first page, applies to every page); the other formats are uncalibrated 8-bit (PNG and JPEG 2000 may be 16-bit). The file's own markers say whether it is lossless or lossy, recorded with the image; a lossy or possibly lossy file (JPEG, most WebP and AVIF) adds a warning, as its pixel values are approximations. HEIC is not read. Colour images become three channels, palette images keep their colours, and an alpha channel is dropped. Frames One reads the page or animation frame Page names; All outputs every page or frame as a list, for a loop region, whatever the file holds (a single image gives a list of one).",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.read_oir",
+                "name": "Read OIR",
+                "description": "Read one frame of an Olympus/Evident FluoView OIR file as a multi-channel image, with channel names, LUT colours, 12-bit depth and pixel size from the file. Use Split channels to work on one channel. Channels are numbered as the file numbers them (Loom's reader remapped them). Channel colours can be changed in the channel table; the chosen colours are the output's recorded channel colours.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.split_channels",
+                "name": "Split channels",
+                "description": "Split a multi-channel image into one image per channel, keeping each channel's name, colour, bit depth, calibration and capture. Channels are known by how they were captured (laser and emission window), so the same dye goes to the same output in every file, wherever the file records it. Outputs Each channel gives one output per ticked channel, named by the table; a file without that channel leaves it inactive and what is wired after it does not run for that file. Outputs List gives the ticked channels the file has as one list named by the table, so a Save's {key} names each file by channel. The table fills from the first image read; a channel it does not have is noted and offered there, never split by itself.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "ch1",
+                    "ch2",
+                    "ch3"
+                  ]
+                }
+              },
+              {
+                "id": "image.merge_channels",
+                "name": "Merge channels",
+                "description": "Stack images into one multi-channel image, in the order the connections were made (reorder connections to reorder channels). Every input must have the same size, pixel type and calibration; multi-channel inputs contribute all their channels, at most 8 in total.",
+                "ports": {
+                  "inputs": [
+                    "channels"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.channels",
+                "name": "Choose channels",
+                "description": "Keep, drop and reorder an image's channels and set each one's colour and name. Pixels are copied exactly; only which channels are present and their colours and names change. An empty list keeps every channel as it is. A channel without a colour keeps the one it was drawn in.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.brightness_contrast",
+                "name": "Brightness / contrast",
+                "description": "Stretch the display window [low, high], in native units of the image's bit depth, to the full range, with an optional midtone gamma. High 0 means the image's full scale (Loom's default of 255 saturated 12- and 16-bit images). The result is a unit-scale image; every channel is stretched the same way.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.multi_channel_bc",
+                "name": "Multi-channel brightness / contrast",
+                "description": "Per-channel display windows (Synapse's Multi-Channel B&C): each channel is stretched from its low to its high value onto the unit scale and takes the colour chosen for it, or white when it is shown gray. Ranges are [low, high] or [low, high, gamma] per channel in native units, with high 0 meaning full scale; missing entries use the full scale. A channel with no colour chosen keeps the input's. Synapse took up to four separate channel inputs; here merge channels first.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.gamma",
+                "name": "Gamma contrast",
+                "description": "gain \u00d7 pixel^gamma on the unit scale (scikit-image adjust_gamma). Not clipped: a gain above 1 can exceed full scale, as in Loom.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.equalize_adapthist",
+                "name": "CLAHE",
+                "description": "Contrast-limited adaptive histogram equalisation (scikit-image equalize_adapthist) with tiles of an eighth of each side (scikit-image's default), each channel on its own. Clip limit 0 means no clipping. Loom's tiles and its handling of colour (per channel, or only the HSV value) depended on which backend ran; Bourn always uses scikit-image's tiles, per channel.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.rolling_ball",
+                "name": "Rolling ball background",
+                "description": "Subtract a rolling-ball background (scikit-image rolling_ball) of the given radius in pixels, per channel, clipping at zero.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.rgb_to_gray",
+                "name": "RGB to gray",
+                "description": "Reduce a colour image to one channel: Rec.601 or Rec.709 luminosity, the channel average, or one channel. A single-channel image passes through; a fourth channel (alpha) is ignored.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.hsv_range_mask",
+                "name": "HSV range mask",
+                "description": "Mask the pixels of a colour image whose hue (degrees), saturation and value (percent) fall inside the ranges, inclusive; a hue range with min above max wraps through red. Exclude inverts the mask. Also outputs the image with everything outside the mask black.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask",
+                    "masked_image"
+                  ]
+                }
+              },
+              {
+                "id": "image.color_deconvolution",
+                "name": "Colour deconvolution",
+                "description": "Separate histology stains (scikit-image separate_stains) with a scikit-image preset or an ImageJ Colour Deconvolution 2 matrix, completing a two-stain matrix by Ruifrok's rule or a cross product. Each output is the stain reconstructed in its own colour, or with Grayscale on, its density normalised to its maximum.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "stain1",
+                    "stain2",
+                    "stain3"
+                  ]
+                }
+              },
+              {
+                "id": "image.bit_depth_convert",
+                "name": "Bit depth convert",
+                "description": "Declare a different acquisition bit depth. The pixel fractions are unchanged, as in Loom; what changes is how native-unit parameters downstream (thresholds, display windows, histograms) map onto them.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.set_scale",
+                "name": "Set scale",
+                "description": "Set the pixel size in micrometres, either directly or from a known distance and its length in pixels (which takes precedence when both are given). Pixels are unchanged.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.math",
+                "name": "Image math",
+                "description": "Add, subtract, multiply or divide two images of the same size on the unit scale; division by zero divides by one. Not clipped, as in Loom. A single-channel image combined with a multi-channel one applies to every channel.",
+                "ports": {
+                  "inputs": [
+                    "a",
+                    "b"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.colorize",
+                "name": "Colorize channel",
+                "description": "Tint each channel with a colour and sum them into an RGB image, clipped to full scale. A single-channel image takes the first colour (Loom spread one channel over all three colours, turning it white); the channel colours are recorded, so the composite is reproducible.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.merge_images",
+                "name": "Merge images",
+                "description": "Blend any number of images by per-pixel sum, mean, maximum or minimum, clipped to full scale. Smaller images are placed at the top left of the largest, so mean and minimum include that zero padding, as in Loom. If any input has colour, all are treated as RGB.",
+                "ports": {
+                  "inputs": [
+                    "images"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.resize",
+                "name": "Resize",
+                "description": "Resize to a target size (optionally fitting inside it with the aspect ratio kept) or by a scale factor, with bicubic interpolation and anti-aliasing when shrinking (scikit-image resize, order 3). The pixel size is scaled on each axis. Masks are resized nearest-neighbour and stay binary.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.rotate",
+                "name": "Rotate",
+                "description": "Rotate counter-clockwise by an angle in degrees, enlarging the canvas to fit and filling with black, with bicubic interpolation (scikit-image rotate, resize on; Loom used SciPy's equivalent). Masks rotate nearest-neighbour and stay binary.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.mirror",
+                "name": "Mirror / flip",
+                "description": "Flip left-right (horizontal), top-bottom (vertical) or both.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.crop",
+                "name": "Crop",
+                "description": "Keep the rectangle starting at (x, y) with the given width and height, clipped to the image. A rectangle entirely outside the image is an error (Loom returned an empty image). The crop's origin is recorded in the result's provenance.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.mask_crop",
+                "name": "Mask crop",
+                "description": "Crop to the bounding box of a mask, expanded by padding and clipped to the image, optionally blacking out pixels outside the mask. Without a mask the image passes through; an empty mask is an error.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "mask"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.threshold",
+                "name": "Binary threshold",
+                "description": "Mask the pixels brighter than the threshold, in native units of the image's bit depth (40 on a 12-bit image is 40/4095), or with Invert the pixels at or below it. Colour images use the channel mean.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.multi_channel_threshold",
+                "name": "Multi-channel threshold",
+                "description": "Threshold every channel of a multi-channel image on its own, in native units, and combine the enabled channels' masks with AND or OR. Thresholds are per channel [threshold, above (1) or below (0), enabled (1/0)]; missing entries are [128, 1, 1]. Also outputs every channel's mask and the image with the combined mask applied.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask",
+                    "masks",
+                    "masked_image"
+                  ]
+                }
+              },
+              {
+                "id": "image.threshold_local",
+                "name": "Local threshold",
+                "description": "Mask pixels brighter than their neighbourhood's Gaussian-weighted mean (scikit-image threshold_local, block size odd, reflect border). Colour images use the channel mean. An even block size is rounded up.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.multi_otsu",
+                "name": "Multi-Otsu",
+                "description": "Split intensities into classes by multi-level Otsu (scikit-image threshold_multiotsu, 256 bins) and output the class map: 0 for the darkest class up to classes - 1. Loom emitted a coloured picture of the classes; the class map is the data, and every preview colours it. Colour images use the channel mean.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "labels"
+                  ]
+                }
+              },
+              {
+                "id": "image.gaussian_blur",
+                "name": "Gaussian blur",
+                "description": "Gaussian blur of the given sigma in pixels, each channel on its own (scikit-image gaussian: nearest border, truncated at 4 sigma). Synapse's default sigma was 10.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.median",
+                "name": "Median filter",
+                "description": "Median over a square window of the given odd size, each channel on its own (reflect border).",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.convolve",
+                "name": "Convolve",
+                "description": "Convolve each channel with a kernel given as rows of numbers (SciPy ndimage convolve, reflect border); with Normalise the kernel is divided by its sum.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.white_tophat",
+                "name": "White top-hat",
+                "description": "Bright details smaller than a disk: image minus its opening, each channel on its own.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.black_tophat",
+                "name": "Black top-hat",
+                "description": "Dark details smaller than a disk: the closing minus the image, each channel on its own.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.bandpass",
+                "name": "Bandpass filter",
+                "description": "ImageJ-style ideal FFT band-pass keeping structures between the small and large sizes in pixels, clipped to [0, 1] (Large 0 keeps every large structure). As in Loom and Synapse the cut-offs are measured against the image width on both axes and the mean is removed. Colour images use the channel mean.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.frangi",
+                "name": "Frangi vesselness",
+                "description": "Frangi vesselness for bright ridges over integer sigmas from min to max (scikit-image frangi, reflect border), normalised to its maximum. Colour images use the channel mean.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.canny",
+                "name": "Canny edges",
+                "description": "Canny edges (scikit-image canny) after a Gaussian of the given sigma. Thresholds are gradient magnitudes in native units of the bit depth; 0 uses 10% and 20% of full scale. (Loom compared unscaled values to a [0, 1] gradient, so any threshold of 1 or more found no edges.) Colour images use the channel mean.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.sobel",
+                "name": "Sobel edges",
+                "description": "Sobel gradient magnitude, rescaled to [0, 1]. Colour images use the channel mean.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.prewitt",
+                "name": "Prewitt edges",
+                "description": "Prewitt gradient magnitude, rescaled to [0, 1]. Colour images use the channel mean.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.laplacian",
+                "name": "Laplacian edges",
+                "description": "Laplacian of a Gaussian of the given sigma, shown around 0.5: zero crossings are 0.5, the strongest response of either sign reaches 0 or 1. Colour images use the channel mean.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.erode",
+                "name": "Erode",
+                "description": "Erode a mask with a disk of the given radius, pixels beyond the edge counting as background. This is Loom's native behaviour; Synapse (and Loom without its native module) iterated a 3\u00d73 cross instead.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.dilate",
+                "name": "Dilate",
+                "description": "Dilate a mask with a disk of the given radius, pixels beyond the edge counting as background. This is Loom's native behaviour; Synapse (and Loom without its native module) iterated a 3\u00d73 cross instead.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.morph_open",
+                "name": "Open",
+                "description": "Erosion then dilation, each iterated with a 3\u00d73 cross (SciPy binary_opening, background beyond the edge): removes thin protrusions and specks.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.morph_close",
+                "name": "Close",
+                "description": "Dilation then erosion, each iterated with a 3\u00d73 cross (SciPy binary_closing, background beyond the edge, so foreground touching the edge is eroded, as in Loom): fills thin gaps.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.fill_holes",
+                "name": "Fill holes",
+                "description": "Fill background regions not connected to the image edge (SciPy binary_fill_holes, 4-connected background).",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.remove_small_objects",
+                "name": "Remove small objects",
+                "description": "Remove connected regions whose area is at most the maximum size in pixels (scikit-image 0.26 remove_small_objects). Connectivity 1 is 4-connected, 2 is 8-connected; the default follows Loom (1), where scikit-image's own default and Synapse differ. Synapse's default size was 500.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.remove_small_holes",
+                "name": "Remove small holes",
+                "description": "Fill holes whose area is at most the maximum size in pixels (scikit-image 0.26 remove_small_holes). Connectivity 1 is 4-connected, 2 is 8-connected. Synapse's default size was 50.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.distance_ring_mask",
+                "name": "Distance ring mask",
+                "description": "The band of background within a distance (pixels, Euclidean) of the mask; with Include original the mask itself is added, giving a dilated mask.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.skeletonize",
+                "name": "Skeletonize",
+                "description": "Thin a mask to one-pixel lines (scikit-image skeletonize, Zhang's method), then optionally prune: each round removes every endpoint, shortening all open branches by one pixel. Loom also offered Lee's method, which is not ported.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.medial_axis",
+                "name": "Medial axis",
+                "description": "The medial axis of a mask (scikit-image medial_axis, tie-breaks from a fixed seed so the result is reproducible) and the distance to the background along it, in pixels. Loom output a coloured picture of that distance; here it is the distance itself, zero off the axis.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask",
+                    "distance"
+                  ]
+                }
+              },
+              {
+                "id": "image.skeleton_analysis",
+                "name": "Skeleton analysis",
+                "description": "Measure each 8-connected skeleton piece: centroid, length (orthogonal steps 1, diagonal steps \u221a2, so loops and junctions count every pixel pair, as in Loom) and junction pixels (three or more neighbours), after dropping pieces with fewer pixels than the minimum. Also outputs the junctions dilated by a disk, the pieces as labels, and a picture of skeleton (gray) and junctions (red). Lengths are in pixels.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask",
+                    "stats",
+                    "junctions",
+                    "labels",
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.keep_max_intensity",
+                "name": "Keep max intensity region",
+                "description": "Keep the one 8-connected region of a mask with the largest summed intensity, among the N largest regions by area (Synapse; Loom's version was disabled). Colour images use the channel mean. An empty mask gives an empty mask.",
+                "ports": {
+                  "inputs": [
+                    "mask",
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.label",
+                "name": "Connected components",
+                "description": "Number each connected region of a mask 1, 2, ... in raster order; 4- or 8-connected.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "labels"
+                  ]
+                }
+              },
+              {
+                "id": "image.clean_labels",
+                "name": "Clean labels",
+                "description": "Drop regions touching the image edge and/or keep only the N largest (ties to the lower id), then renumber the survivors 1..N in their original order.",
+                "ports": {
+                  "inputs": [
+                    "labels"
+                  ],
+                  "outputs": [
+                    "labels"
+                  ]
+                }
+              },
+              {
+                "id": "image.watershed",
+                "name": "Watershed",
+                "description": "Split touching objects in a mask: markers at the peaks of the distance transform at least the given distance apart (8-connected), flooded over the inverted normalised distance inside the mask (scikit-image watershed). Click on the preview to add seeds and Shift-click to remove one; each added seed starts its own object, and a removed automatic seed stays removed (the one nearest the click, within half the separation). Untick Automatic seeds to place every seed by hand. Objects closer to the image edge than the separation get no automatic seed (as in scikit-image); add one by hand. Outputs the labels, a table of region measurements in pixels, and the seeds used, one per automatic marker.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "labels",
+                    "table",
+                    "seeds"
+                  ]
+                }
+              },
+              {
+                "id": "image.particle_select",
+                "name": "Particle select",
+                "description": "Keep the regions that pass every rule, such as area \u2265 50 and circularity > 0.6; rules on an unknown column are ignored and no rules keep everything. Outputs the kept regions as a mask and as labels with their original numbers.",
+                "ports": {
+                  "inputs": [
+                    "labels",
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask",
+                    "labels"
+                  ]
+                }
+              },
+              {
+                "id": "image.particle_toggle",
+                "name": "Particle toggle",
+                "description": "Keep the regions within the area limits (pixels; 0 means no limit) that are in the selection; an empty selection keeps every region within the limits. Click regions in the preview to toggle them. Outputs a mask and labels with their original numbers.",
+                "ports": {
+                  "inputs": [
+                    "labels",
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask",
+                    "labels"
+                  ]
+                }
+              },
+              {
+                "id": "image.particle_classify",
+                "name": "Particle classify",
+                "description": "Assign regions to named groups (click regions in the preview, Shift-click to unassign). Outputs labels whose values are group numbers (1 for the first group, 0 unassigned) and a table of every region's area, centroid and group.",
+                "ports": {
+                  "inputs": [
+                    "labels",
+                    "image"
+                  ],
+                  "outputs": [
+                    "labels",
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.blob_detect",
+                "name": "Blob detection",
+                "description": "Find bright round spots by Laplacian of Gaussian (scikit-image blob_log, 10 scales between the radii, overlap 0.5, border blobs kept). The threshold is a LoG response on the unit scale. Colour images use the channel mean. Outputs a table y, x, radius_px and an overlay with the blobs circled.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "table",
+                    "overlay"
+                  ]
+                }
+              },
+              {
+                "id": "image.find_contours",
+                "name": "Find contours",
+                "description": "Trace iso-contours at a level given as a fraction of full scale (0.5 traces a mask's edges) with scikit-image find_contours, largest area first. Outputs the contours drawn closed into a mask and a table of contour_id, x, y points. No contour gives an empty mask and table (Loom raised an error).",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask",
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.hough_lines",
+                "name": "Hough lines",
+                "description": "Straight lines through a mask's pixels (scikit-image hough_line over 180 angles, then hough_line_peaks with the threshold a fraction of the strongest vote). Outputs an overlay with the lines drawn edge to edge and a table theta (rad), rho (px), x0, y0, x1, y1.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "overlay",
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.hough_circles",
+                "name": "Hough circles",
+                "description": "Circles through a mask's pixels for every integer radius from min to max (scikit-image hough_circle and hough_circle_peaks, threshold a fraction of the strongest vote). Outputs an overlay and a table cx, cy, radius.",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "overlay",
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.hough_ellipse",
+                "name": "Hough ellipse",
+                "description": "Ellipses through a mask's edge pixels (scikit-image hough_ellipse; its cost grows with the cube of the edge-pixel count, so use it on edges or small masks). Keeps up to N ellipses whose votes reach the threshold fraction of the best, strongest first. Outputs an overlay and a table cx, cy, a, b, orientation (rad).",
+                "ports": {
+                  "inputs": [
+                    "mask"
+                  ],
+                  "outputs": [
+                    "overlay",
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.particle_props",
+                "name": "Region measurements",
+                "description": "Measure every region: area, centroid, box (bottom and right exclusive), perimeter, circularity, shape and orientation (degrees), in pixels. Regions are the 8-connected parts of the mask, or the given labels (then the mask is ignored). With an intensity image, adds mean, sum, max and min intensity on the unit scale (luminance for RGB) and the weighted centroid. Min area drops smaller regions from the table and the labels.",
+                "ports": {
+                  "inputs": [
+                    "mask",
+                    "intensity_image",
+                    "label_image"
+                  ],
+                  "outputs": [
+                    "table",
+                    "label_image"
+                  ]
+                }
+              },
+              {
+                "id": "image.image_stats",
+                "name": "Image stats",
+                "description": "One row of statistics. For a mask: image size, area and area fraction, and the shape of all its pixels taken as one region. For an image: mean, population std, min, max and median of the channel mean on the unit scale, inside the mask when one of the same size is given, and with Per channel the same for every channel of a colour image.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "mask"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.glcm_texture",
+                "name": "GLCM texture",
+                "description": "Haralick texture of the channel mean quantised to the given levels (truncating): the gray-level co-occurrence matrix at one distance over 0\u00b0, 45\u00b0, 90\u00b0 and 135\u00b0 (scikit-image graycomatrix, normed), with contrast, dissimilarity, homogeneity, energy, correlation and ASM averaged over the angles.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.intensity_profile",
+                "name": "Intensity profile",
+                "description": "Intensities along a line drawn on the preview, sampled bilinearly at about one point per pixel of length, every channel on the unit scale. With no line drawn, the middle half of the centre row (the line the preview starts with). Outputs a table of distance (px) and one column per channel.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.image_histogram",
+                "name": "Image histogram",
+                "description": "Pixel counts over the image's bit-depth range in equal bins (at most one per value), inside the mask when one of the same size is given. Outputs Bin_Lower, Bin_Upper in native units and a count column per channel (Intensity for one channel).",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "mask"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.colocalization",
+                "name": "Colocalization",
+                "description": "Colocalisation of two channels on the unit scale: Pearson, Spearman and Kendall (Kendall on a fixed random 50,000-pixel sample of larger sets), Manders' overlap coefficient, M1 and M2 above each channel's Otsu threshold, and Li's ICQ. Over the mask when given; with labels, one row per region.",
+                "ports": {
+                  "inputs": [
+                    "ch1",
+                    "ch2",
+                    "mask",
+                    "label_image"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.mask_overlay",
+                "name": "Mask overlay",
+                "description": "Draw a mask on an image: an optional translucent fill and an outline of the given width just inside the mask edge (the mask minus its erosion by a 3\u00d73 cross; width 0 draws no outline). Loom passed a mismatched mask through silently; here it is an error. Synapse's outline is centred on the edge and styled.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "mask"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.label_overlay",
+                "name": "Label overlay",
+                "description": "Colour each labelled region on an image: a translucent fill and a boundary of the given width in the region's colour (scikit-image find_boundaries, thick). Label L takes colour L of the palette, repeating.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "label_image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.scale_bar",
+                "name": "Scale bar",
+                "description": "Draw a calibrated scale bar of the given length in \u00b5m, with its length written above it, in a corner. Needs a calibrated image (set scale or a reader that records it). On the preview's Draw tab, drag the bar to move it to a corner and drag its end to change the length.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.roi_mask",
+                "name": "ROI mask",
+                "description": "Draw regions of interest on the preview: ellipses, rectangles, pen outlines and freehand lassos, each a region you can reshape, resize, rotate or move, and a brush and eraser that add pixels to a region or take them away. Outputs every region together as a mask, and the image cropped to it with everything outside set to 0 (untick Crop to region to keep the full size). With nothing drawn, an empty mask and the image unchanged. For one label per region, follow it with Connected components.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask",
+                    "cropped_image"
+                  ]
+                }
+              },
+              {
+                "id": "image.draw_shape",
+                "name": "Draw shape",
+                "description": "Annotate an image for figures: rectangles, ellipses, polygons and arrows drawn on the preview (click a shape again to rotate it), each with its own line colour, width, style, fill and label, and text placed with a click, over the outlines of any connected masks and labelled regions. Outputs an 8-bit RGB picture.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "mask",
+                    "label_image"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "image.mask_editor",
+                "name": "Mask editor",
+                "description": "Edit a mask by drawing on the preview: rectangles, ellipses, polygons, lasso, brush and flood fill, each added, subtracted, intersected, XOR-ed or replacing. The edits are kept as a list and replayed on the input mask, so they survive upstream changes. In Cells mode every cell is its own layer (cells may overlap) and the output is one mask per non-empty cell, in cell order.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.label_editor",
+                "name": "Label editor",
+                "description": "Paint labelled regions on the preview: rectangles, ellipses, polygons, lasso, brush and flood fill, each painting its label number (Union or Replace) or clearing it (Subtract). Edits are replayed on the input labels. Outputs the labels and a table of each label's area in pixels.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "label_image"
+                  ],
+                  "outputs": [
+                    "labels",
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "image.box_annotator",
+                "name": "Box annotator",
+                "description": "Draw, move, resize and rotate labelled bounding boxes on the preview, starting from optional proposals (a table xmin, ymin, xmax, ymax, class_name, confidence) and a class catalogue (a table id, name, color). Every box needs a class before the node completes; a box whose geometry or class was edited loses its confidence. Put it in a review region to pause a run for annotation.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "proposals",
+                    "catalog"
+                  ],
+                  "outputs": [
+                    "annotations",
+                    "catalog"
+                  ]
+                }
+              },
+              {
+                "id": "image.western_bands",
+                "name": "Western bands",
+                "description": "Measure a western blot scan: finds the lanes, the band rows, the ladder and the tilt, then gives each lane's band volumes for the proteins you name (each by its expected size, as target or loading control), their ratio to the loading control and the fold change over the lanes you choose. An RGB scan is read as the mean of its channels. Volumes are in arbitrary units (x100). Every number carries its flags (saturated, faint); proteins that match no band are listed, never guessed. Outputs the table (one row per sample lane), the cleaned-up blot with lanes, boxes and sizes drawn on it, and each lane's profile.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "ladder_image"
+                  ],
+                  "outputs": [
+                    "bands",
+                    "annotated",
+                    "profiles",
+                    "groups",
+                    "blot"
+                  ]
+                }
+              },
+              {
+                "id": "image.western_panel",
+                "name": "Western panel",
+                "description": "The publication figure of a blot from Western bands' Blot: one strip per protein row, cut from the picture Western bands measured, with lane labels from its lane table, protein names and sizes, and a line at every splice. Also the uncropped blot with each crop boxed, for the supplement. Brightness and contrast are black and white points per whole strip and are written to the method record; the numbers never see them. Both outputs are vector figures (text stays text) for Compose figure and Save figure.",
+                "ports": {
+                  "inputs": [
+                    "blot"
+                  ],
+                  "outputs": [
+                    "panel",
+                    "uncropped"
+                  ]
+                }
+              },
+              {
+                "id": "image.cell_edge_mask",
+                "name": "Cell edge mask",
+                "description": "FiloQuant step 1: the cell body. Pixels at or above the threshold (native units of the bit depth; the mean of the first three channels), holes filled, then opened n times (erode, then dilate, 3\u00d73 square, edges padded) and optionally opened again.",
+                "ports": {
+                  "inputs": [
+                    "image"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.filopodia_detect",
+                "name": "Filopodia detect",
+                "description": "FiloQuant step 2: thin protrusions. Optional CLAHE, a 5\u00d75 sharpen, two 3\u00d73 medians, a threshold in native units, objects under 8 px removed, and only elongated objects kept (circularity 4\u03c0A/P\u00b2 at most 0.8, Crofton perimeter). With a cell mask and a distance, only detections within that many pixels of the cell are kept.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "cell_mask"
+                  ],
+                  "outputs": [
+                    "mask"
+                  ]
+                }
+              },
+              {
+                "id": "image.filopodia_analyze",
+                "name": "Filopodia analyze",
+                "description": "FiloQuant step 3: detections outside the cell, smaller objects removed, gaps closed, thinned (Zhang), and every connected skeleton measured as one filopodium (diagonal steps count \u221a2). Also measures the cell edge length. Lengths in pixels, and in \u00b5m when either mask is calibrated, each step weighted by its direction when pixels are not square.",
+                "ports": {
+                  "inputs": [
+                    "filopodia_mask",
+                    "cell_mask"
+                  ],
+                  "outputs": [
+                    "table",
+                    "visualization"
+                  ]
+                }
+              },
+              {
+                "id": "image.crop_cells",
+                "name": "Crop cells",
+                "description": "Cut each cell out of an image: the bounding box of each cell mask plus a margin, clipped to the image. Neighbouring cells inside the box are kept. Outputs the image crops and the mask crops as two lists in the same order, for a loop over cells; empty masks are skipped.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "cells"
+                  ],
+                  "outputs": [
+                    "cell_images",
+                    "cell_masks"
+                  ]
+                }
+              },
+              {
+                "id": "image.filopodia_cell_summary",
+                "name": "Filopodia cell summary",
+                "description": "One row per cell from a Filopodia analyze table: the count, mean and total length, the edge length, and the density (filopodia per \u00b5m of edge when calibrated, else per px, stated in density_unit; Synapse did not record which).",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "summary"
+                  ]
+                }
+              },
+              {
+                "id": "image.save",
+                "name": "Save image",
+                "description": "Write an image as PNG or TIFF to a granted save location. One channel (uint8, uint16 or float32; float32 needs TIFF) is written exactly, pixels unchanged. Two or more channels, including an ordinary RGB picture, are written as the 8-bit RGB composite a result preview shows by default (each channel in its colour, on its bit-depth scale, not auto-contrasted). To keep raw per-channel values, use Split channels and save each channel. TIFF keeps the micrometre calibration.",
+                "ports": {
+                  "inputs": [
+                    "value"
+                  ],
+                  "outputs": [
+                    "written"
+                  ]
+                }
+              }
+            ],
+            "pages": [],
+            "records": []
+          },
+          "description": "Western bands: a node that finds lanes and bands on a blot (size-independent detection, a drawn frame or black edge is not a lane, touching lanes split at their dips), names them from a ladder and a loading control, and gives a lane table, groups and the blot; lanes can come from an experiment's gel",
           "ui_api": 1
         }
       ]
