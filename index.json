@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-01T01:00:25Z",
+  "updated": "2026-11-01T01:01:29Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -2204,7 +2204,7 @@
     },
     "bourn.sheets": {
       "name": "bourn.sheets",
-      "description": "Open, edit and share spreadsheets in Bourn, and read a sheet into a workflow.",
+      "description": "Open, edit and share spreadsheets in Bourn, and read, change and save them in a workflow.",
       "versions": [
         {
           "version": "0.1.0",
@@ -2251,6 +2251,79 @@
             ]
           },
           "description": "Open, edit and share spreadsheets in Bourn, and read a sheet into a workflow."
+        },
+        {
+          "version": "0.2.0",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.sheets-v0.2.0/bourn.sheets-0.2.0.bournp",
+          "sha256": "1ec755e009f76c54dc50afbe74f0820be38a198cda49c43a834ec86e135630db",
+          "size": 1356685,
+          "released": "2026-11-01",
+          "notes": "A workbook made from a file is that file plus your changes (Sheets file trail; not published).\n\n- Record format 2: a link to the source file (its place, fingerprint and name) and only the cells, sheets and styles\n  that differ from it, each edited cell with the value it had. A workbook started empty holds its own cells as before;\n  format 1 workbooks keep opening as workbooks started empty.\n- New actions to open a workbook from a file, tell whether the file is unchanged, changed or gone, save only the\n  changes, point a workbook at a file again and drop edits.\n- Removed the import and export actions: an import copied the file and an export left no record.\n- The page opens a workbook from a file (picked or dropped), shows whether the file is unchanged, changed or gone (a compare view for a changed file, nothing applied until chosen), lists your changes and the history, saves as a file through a recorded run, and lists each workbook's source and the workflows that use it.\n- New **Sheet** node: a file and a workbook's changes, as one sheet's table and as a workbook. The edits apply to the\n  file they were made to; another file with the same layout runs only a layer of formulas and labels (a value typed\n  for plate1 is never written into plate2: the run refuses and names both files). Input the formulas do not reach and\n  source sheets the file lacks are warned, never dropped silently. A run never writes the saved workbook, and states\n  the workbook revision, the file's fingerprint and what was edited as facts a recipe keeps.\n- New **Save workbook** node: a workbook (or chosen sheets) to .xlsx, or one sheet to .csv, through the write door.\n- Read sheet reads a workbook that holds its own cells, and says so when a workbook reads a file (use the Sheet node).\n- Records of format 2 are not readable by 0.1.0.",
+          "core_hosted": false,
+          "requires_plugins": {},
+          "adds": {
+            "nodes": [
+              {
+                "id": "sheets.read",
+                "name": "Read sheet",
+                "description": "Read a sheet, a range or a named range of a workbook in Sheets as a table of its computed values. It always reads the saved version you chose, so a later edit never changes a finished run.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "sheets.sheet",
+                "name": "Sheet",
+                "description": "A file and the changes made to it in Sheets, as one sheet's table and as a workbook. Give it the file to read (or leave it empty to use the workbook's own file); a recipe of formulas also runs on another file with the same layout. A value edited by hand is applied only to the file it was made to.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "table",
+                    "workbook"
+                  ]
+                }
+              },
+              {
+                "id": "sheets.save",
+                "name": "Save workbook",
+                "description": "Write a workbook to an .xlsx file (all its sheets, or the ones you list) or one of its sheets to a .csv file at a granted save location. The run records the file and where it came from.",
+                "ports": {
+                  "inputs": [
+                    "value"
+                  ],
+                  "outputs": [
+                    "written"
+                  ]
+                }
+              }
+            ],
+            "pages": [
+              {
+                "id": "sheets",
+                "title": "Bourn Sheets",
+                "description": "Open, edit and share spreadsheets, and import or export Excel files.",
+                "needs": [
+                  "records:workbook",
+                  "actions",
+                  "files.read",
+                  "files.write",
+                  "runs"
+                ]
+              }
+            ],
+            "records": [
+              {
+                "kind": "workbook",
+                "title": "Workbook"
+              }
+            ]
+          },
+          "description": "Open, edit and share spreadsheets in Bourn, and read, change and save them in a workflow."
         }
       ]
     }
