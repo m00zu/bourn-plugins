@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-01T03:39:25Z",
+  "updated": "2026-11-01T03:41:14Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -3450,6 +3450,371 @@
             "records": []
           },
           "description": "Save figure draws the SVG into every format (PNG, TIFF, JPEG, PDF), so a saved figure matches the preview; needed by the Western panel in bourn.image 0.12.0. Setting descriptions say what each setting does, in units.",
+          "ui_api": 1
+        },
+        {
+          "version": "0.8.1",
+          "sdk_version": "1",
+          "min_bourn": "0.4.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.plot-v0.8.1/bourn.plot-0.8.1.bournp",
+          "sha256": "311ce783bc67b93c8efe9477a08b1a11ffc59f5cae78b51bd0688c86f2152aaa",
+          "size": 5198386,
+          "released": "2026-11-01",
+          "notes": "Group headings are translated in Traditional Chinese.",
+          "core_hosted": true,
+          "requires_plugins": {
+            "bourn.statistic": ">=1.5,<2"
+          },
+          "adds": {
+            "nodes": [
+              {
+                "id": "plot.scatter",
+                "name": "Scatter plot",
+                "description": "Points from two numeric columns, one series per group value.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.bar",
+                "name": "Bar plot",
+                "description": "Group means with error bars, and the raw values as dots.",
+                "ports": {
+                  "inputs": [
+                    "data",
+                    "comparisons"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.compose",
+                "name": "Compose figure",
+                "description": "Arrange charts, images and figures on a page of a set width, in Focus mode. Panels follow their source: rerunning updates them and keeps the layout.",
+                "ports": {
+                  "inputs": [
+                    "panels"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.compress",
+                "name": "Compress image",
+                "description": "Make a small PNG of an image or a figure at a print size, for documents with a size limit: fewer colours (Quality) and optional smoothing (dithering). Save it with Save figure.",
+                "ports": {
+                  "inputs": [
+                    "image",
+                    "figure"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "plot.swarm",
+                "name": "Scatter dot plot",
+                "description": "Every value as a dot, laid out as a swarm, with a mean or median line.",
+                "ports": {
+                  "inputs": [
+                    "data",
+                    "comparisons"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.box",
+                "name": "Box plot",
+                "description": "Quartiles, whiskers and outliers per group, with optional notches and means.",
+                "ports": {
+                  "inputs": [
+                    "data",
+                    "comparisons"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.violin",
+                "name": "Violin plot",
+                "description": "Each group's distribution as a mirrored density, with quartile lines.",
+                "ports": {
+                  "inputs": [
+                    "data",
+                    "comparisons"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.histogram",
+                "name": "Histogram",
+                "description": "Counts of values in bins, one layer per group; groups share their bins.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.kde",
+                "name": "Density plot",
+                "description": "A smoothed distribution (Gaussian kernel density) per group.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.line",
+                "name": "XY line",
+                "description": "Mean \u00b1 error at each x, joined by a line, one line per group. Optionally a second curve drawn as a line on the same axes (Overlay: such as FRAP fit's fitted curve over FRAP normalize's whole curve), and a dashed vertical line at one x (Mark at x: such as 0, the bleach).",
+                "ports": {
+                  "inputs": [
+                    "data",
+                    "overlay"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.edit",
+                "name": "Edit figure",
+                "description": "Click elements to restyle them. Formatting only: no value can change here.",
+                "ports": {
+                  "inputs": [
+                    "figure"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.joint",
+                "name": "Joint plot",
+                "description": "A scatter with each variable's histogram along its edge.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.pair",
+                "name": "Pair plot",
+                "description": "Every pair of variables as a scatter, with each one's distribution on the diagonal.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.radar",
+                "name": "Radar chart",
+                "description": "Each group's values across several measures, as an area on spokes.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.angle",
+                "name": "Angle distribution",
+                "description": "A rose diagram: how many angles fall in each sector.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.read",
+                "name": "Read figure",
+                "description": "Read a finished figure file (SVG, PNG, TIFF, JPEG, WebP, AVIF or JPEG 2000) to compose, compress or save. An SVG stays vector; a raster records whether the file is lossless or lossy. Use Read image for pixels to analyse.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.render",
+                "name": "Render figure",
+                "description": "Render a figure at its physical size: SVG or PDF (vector), or PNG, TIFF or JPEG at a DPI recorded in the file. JPEG is lossy: for slides, not publication.",
+                "ports": {
+                  "inputs": [
+                    "figure"
+                  ],
+                  "outputs": [
+                    "image"
+                  ]
+                }
+              },
+              {
+                "id": "plot.save",
+                "name": "Save figure",
+                "description": "Write a figure to a file. A chart wired in directly, or an SVG figure (Western panel's, or one Read figure read), is rendered in the format of the file's extension (SVG, PNG, TIFF, JPEG or PDF) at the DPI below; any other rendered figure, including a WebP, AVIF or JPEG 2000 read by Read figure, is written as it was, under its own extension.",
+                "ports": {
+                  "inputs": [
+                    "value"
+                  ],
+                  "outputs": [
+                    "written"
+                  ]
+                }
+              },
+              {
+                "id": "plot.curve",
+                "name": "Curve fit",
+                "description": "Data with a fitted line or model curve and its confidence band.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.survival",
+                "name": "Survival curve",
+                "description": "Kaplan\u2013Meier survival steps per group, with censor marks and a log-rank p.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.volcano",
+                "name": "Volcano plot",
+                "description": "Effect against \u2212log10 p, with thresholds and the top hits named.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.heatmap",
+                "name": "Heatmap",
+                "description": "A table of values as colours, optionally scaled and clustered.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.bland_altman",
+                "name": "Bland\u2013Altman plot",
+                "description": "Agreement of two paired measurements: difference against mean, with bias and limits.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.style",
+                "name": "Style designer",
+                "description": "Design a style template on sample data, or restyle a connected figure.",
+                "ports": {
+                  "inputs": [
+                    "figure"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.interaction",
+                "name": "Interaction plot",
+                "description": "The cell means of a Two-way ANOVA, one series per level of one factor, with the model's interval.",
+                "ports": {
+                  "inputs": [
+                    "model",
+                    "data"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "plot.estimates",
+                "name": "Estimate plot",
+                "description": "Each comparison's estimate (or ratio) with its confidence interval, against a reference line.",
+                "ports": {
+                  "inputs": [
+                    "comparisons"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              }
+            ],
+            "pages": [],
+            "records": []
+          },
+          "description": "Group headings are translated in Traditional Chinese.",
           "ui_api": 1
         }
       ]
