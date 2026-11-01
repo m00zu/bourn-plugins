@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-01T03:38:26Z",
+  "updated": "2026-11-01T03:39:25Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -1342,6 +1342,480 @@
             "records": []
           },
           "description": "Quantify from standards: fits the standard rows (linear or four-parameter logistic), reads the samples off the curve and applies their dilution, and marks each sample within the standards, above or below them, or above or below the curve when the signal can't be read off it; gives the samples, the f",
+          "ui_api": 1
+        },
+        {
+          "version": "1.6.1",
+          "sdk_version": "1",
+          "min_bourn": "0.3.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.statistic-v1.6.1/bourn.statistic-1.6.1.bournp",
+          "sha256": "c2999fb2070d5769461f937d9691a053b33e98a163ec40c24aaf807ce0d43aee",
+          "size": 1555748,
+          "released": "2026-11-01",
+          "notes": "Collapsible field groups: what to analyse and the method stay open; rarer settings sit in closed groups (Options, Resampling, Curve, Missing values, File format), and fields the chosen setting never reads are hidden. Results are unchanged.",
+          "core_hosted": true,
+          "requires_plugins": {},
+          "adds": {
+            "nodes": [
+              {
+                "id": "statistic.descriptive",
+                "name": "Descriptive statistics",
+                "description": "n, mean, median, SD, SEM, a t interval of the mean, quartiles (linear, type 7), skewness, excess kurtosis and CV for each column, optionally per group.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "summary"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.group_summary",
+                "name": "Group summary",
+                "description": "One row per group: n, mean, SD, SEM, an interval of the mean, and box-plot quartiles, whiskers and notches (matplotlib's rules).",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "summary"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.normality",
+                "name": "Normality test",
+                "description": "Shapiro\u2013Wilk, Anderson\u2013Darling and Lilliefors per group (or per column, with 'columns are groups'), and optionally a KS test against a normal you specify.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "tests"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.average_curves",
+                "name": "Average curves",
+                "description": "Line up curves (one per id, such as one per file) on one time grid and average them per group. Curves are interpolated linearly onto the grid, which runs from the latest start, and never extended past their own last time, so n can fall at late times. Two tables: Aligned (every id on the grid) and Mean curves (mean, lower, upper and n at each time). Band (SEM, SD or a t-based 95% CI) sets Mean curves' lower and upper only; a Line plot fed Aligned draws its own error bars or band.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "aligned",
+                    "mean_curves"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.group_compare",
+                "name": "Compare groups",
+                "description": "One-way ANOVA (or Welch's, with unequal variances) or Kruskal\u2013Wallis across the groups.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "test"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.pairwise",
+                "name": "Pairwise comparisons",
+                "description": "Compare chosen pairs of groups: t tests, Mann\u2013Whitney, KS, Z-test, permutation, Tukey HSD, Dunn, or Dunnett (each group against a control); or, for the same subjects measured in each condition, paired t or Wilcoxon signed-rank (with a Subject column, or one row per subject).",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "comparisons"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.compare_correlations",
+                "name": "Compare correlations",
+                "description": "Fisher's z test between independent correlations. The input has one row per group with its correlation r and its number of pairs n.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "comparisons"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.variance_test",
+                "name": "Variance test",
+                "description": "Equality of variances: Brown\u2013Forsythe (median-centred Levene), Levene, Bartlett, or the F-test for two groups (group1 variance over group2's).",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "test"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.effect_size",
+                "name": "Effect size",
+                "description": "Cohen's d, Hedges' g, Glass's \u0394 or rank-biserial for chosen pairs, or \u03b7\u00b2 / \u03c9\u00b2 across all groups, with an optional seeded percentile bootstrap interval.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "effects"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.adjust_pvalues",
+                "name": "Adjust p-values",
+                "description": "Multiple-testing correction for a column of p-values, for example from several nodes or from outside Bourn. Adds p_adj and reject.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "adjusted"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.paired_compare",
+                "name": "Paired compare",
+                "description": "Compare conditions measured on the same subjects: paired t or Wilcoxon signed-rank for two conditions; repeated-measures ANOVA (with Mauchly's test and the Greenhouse\u2013Geisser and Huynh\u2013Feldt corrections) or Friedman for more. One row per subject (choose the condition columns), or a Subject column. RM ANOVA differs from statsmodels where statsmodels is wrong: data with no subject \u00d7 condition variation give F = \u221e (statsmodels reports rounding noise), and constant data give no result (statsmodels reports F = 0, p = 1).",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "test",
+                    "comparisons"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.one_sample",
+                "name": "One-sample test",
+                "description": "Test each column or group against a typed value (0, or 1 for a ratio or fold change): one-sample t, or Wilcoxon signed-rank on the differences from the value.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "comparisons"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.roc",
+                "name": "ROC curve",
+                "description": "How well a score separates two outcomes: the ROC curve (scikit-learn's points), the area under it with DeLong's standard error and interval, and Youden's best cutoff with its sensitivity and specificity. Two scores measured on the same subjects are compared by DeLong's paired test. Choose the score column (blank is refused: there is no 'every numeric column' here). Differs from scikit-learn where it would mislead: an outcome with one class, or a score that is the same for everyone, is refused (scikit-learn gives no AUC, or 0.5 with no uncertainty); the interval is clipped to 0\u20131 and says so. Two scores whose difference has no variance (one perfect, the other perfectly reversed) get no z, p or interval.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "curve",
+                    "auc",
+                    "comparison"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.contingency",
+                "name": "Contingency table",
+                "description": "Pearson's \u03c7\u00b2, Yates' continuity correction and Fisher's exact test, from two categorical columns or from a table of counts; and McNemar's test for paired yes/no data (the same subjects before and after: two paired columns, one row per subject, or a 2 \u00d7 2 count table with the first measurement in rows). McNemar differs from statsmodels where statsmodels is wrong: its continuity correction never passes zero (statsmodels gives b = c a positive \u03c7\u00b2, and no discordant pair \u03c7\u00b2 = \u221e, p = 0), and the exact test needs whole-number discordant counts (statsmodels checks only their sum).",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "tests",
+                    "observed",
+                    "expected"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.agreement",
+                "name": "Agreement",
+                "description": "How well two methods or several raters agree. Bland\u2013Altman: bias and limits of agreement between two methods, with their confidence intervals (Bland and Altman 1999), and the paired points. Cohen's kappa (two raters, categories) and weighted kappa (ordered categories, linear or quadratic weights), with SE, Wald interval and the test of \u03ba = 0 (statsmodels' cohens_kappa); Points holds the rater A \u00d7 rater B counts. ICC: the six Shrout\u2013Fleiss intraclass correlations (named also as McGraw\u2013Wong), each with its F test and interval; Points holds the mean squares. Kappa differs from statsmodels where statsmodels is wrong: at perfect agreement its variance can round below zero and leave the SE and interval empty; here they are 0 and [\u03ba, \u03ba].",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "summary",
+                    "points"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.correlation_matrix",
+                "name": "Correlation matrix",
+                "description": "Pearson, Spearman or Kendall correlations between columns, with p-values, or a distance matrix between columns.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "matrix",
+                    "pairs"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.cluster",
+                "name": "Cluster order",
+                "description": "Hierarchical clustering of rows and/or columns: the leaf order for a heatmap and SciPy's linkage rows for a dendrogram.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "order",
+                    "dendrogram"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.linear_regression",
+                "name": "Linear regression",
+                "description": "Ordinary least squares on one or more x columns, or a polynomial in one x, with coefficient tests, fit statistics, residuals and a fitted curve with its confidence band.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "coefficients",
+                    "fit",
+                    "residuals",
+                    "curve",
+                    "model"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.nonlinear_regression",
+                "name": "Nonlinear regression",
+                "description": "Fit a built-in model (4PL, Hill, decays, growth, Michaelis\u2013Menten, Gompertz, logistic, FRAP recoveries) by Levenberg\u2013Marquardt, with parameter tests, dependency, fit statistics and a curve.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "parameters",
+                    "fit",
+                    "curve",
+                    "model"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.predict",
+                "name": "Model predict",
+                "description": "Predict y from x with a fitted polynomial or nonlinear model, or x from y (inverse, by root finding over a bracket).",
+                "ports": {
+                  "inputs": [
+                    "model",
+                    "data"
+                  ],
+                  "outputs": [
+                    "predicted"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.quantify_standards",
+                "name": "Quantify from standards",
+                "description": "Fit a standard curve to the standard rows of one table and read every other row's concentration off it, with the dilution applied. Samples outside the standards are kept and flagged: above or below standards (still computed), above the curve (saturated: dilute and rerun) or below the curve (not detected), which have no concentration.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "samples",
+                    "parameters",
+                    "fit",
+                    "standards",
+                    "curve",
+                    "model"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.anova_two_way",
+                "name": "Two-way ANOVA",
+                "description": "Two factors with their interaction: Type II (treatment coding) or Type III (sum-to-zero coding) sums of squares, and the cell means.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "anova",
+                    "cells",
+                    "model"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.ancova",
+                "name": "ANCOVA",
+                "description": "Compares groups after adjusting for one or more numeric covariates (e.g. a baseline measurement): the ANCOVA table with Type II (treatment coding) or Type III (sum-to-zero coding) sums of squares, which give the same group and covariate tests here and differ by Type III's intercept row; the adjusted means (each group's prediction with every covariate at its mean, emmeans' estimated marginal means) with SE and interval; and the homogeneity-of-slopes test (group \u00d7 covariate), which the adjusted comparison assumes (statsmodels' ols with anova_lm and get_prediction). Differs from statsmodels where it would mislead: a constant covariate, one that only differs between the groups, or one collinear with another is refused by name (statsmodels fits them through its pseudo-inverse and reports full-df F tests for an effect it cannot estimate), and a slopes test whose model cannot give each group its own slope is left out with the reason (statsmodels reports it with too many df); and the fits run on the centred value and centred, scaled covariates, so a covariate with a large offset or a tiny spread keeps its digits (statsmodels' fit of the raw columns makes the group F 5.5 times wrong at an offset of 3\u00b710\u2077).",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "anova",
+                    "adjusted_means",
+                    "slopes"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.manova",
+                "name": "MANOVA",
+                "description": "Compares groups on several outcome columns at once, optionally adjusted for numeric covariates (MANCOVA): Pillai's trace, Wilks' lambda, the Hotelling\u2013Lawley trace and Roy's largest root for the group and for each covariate, each with its F approximation, df and p (Roy's F is an upper bound, so its p is a lower bound); the test chosen is listed first. Optionally each outcome's own ANOVA (ANCOVA with covariates) for the group, with a multiple-testing correction over the outcomes (statsmodels' MANOVA.mv_test). Differs from statsmodels where it would mislead: the columns are centred and scaled and the statistics taken from a symmetric eigenproblem, so large offsets, very different scales and small effects keep their digits (statsmodels raises or returns a wrong table there); an outcome that is constant, explained exactly by the group, or a linear combination of the others is refused by name (statsmodels quietly tests fewer dimensions), as is a model with fewer residual degrees of freedom than outcomes; a group with no more rows than outcomes is computed with a warning (its own covariances cannot be checked; Pillai's trace is the most robust there); there is no intercept row.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "tests",
+                    "followups"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.mixed_model",
+                "name": "Mixed-effects model",
+                "description": "A linear mixed model with one grouping factor: fixed effects, a random intercept and optionally a random slope (REML or ML).",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "fixed_effects",
+                    "random_effects",
+                    "summary"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.pca",
+                "name": "PCA",
+                "description": "Principal components: variance explained, eigenvectors, loadings and scores.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "variance",
+                    "eigenvectors",
+                    "loadings",
+                    "scores"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.two_way_comparisons",
+                "name": "Two-way comparisons",
+                "description": "Follow a Two-way ANOVA: each group against another within every level of the other factor (simple effects), and whether those differences change between levels (interaction contrasts), with the model's pooled error or each pair's own.",
+                "ports": {
+                  "inputs": [
+                    "model"
+                  ],
+                  "outputs": [
+                    "simple_effects",
+                    "interaction"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.frap_fit",
+                "name": "FRAP fit",
+                "description": "Fit FRAP normalize's recovery curve from the bleach on: one exponential, two exponentials, or free diffusion into a circular spot (Soumpasis 1983). Mobile fraction, t\u00bd, rates, D, R\u00b2 and adjusted R\u00b2, every model's scores side by side, and the full-scale curve. The fractional recovery (how much came back by the end of the recording) is read from the data for every curve; a model that cannot be fitted leaves its numbers empty and says why. To draw the fit over the whole curve, connect Fitted curve to XY line's Overlay.",
+                "ports": {
+                  "inputs": [
+                    "curve"
+                  ],
+                  "outputs": [
+                    "result",
+                    "fitted_curve"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.survival",
+                "name": "Survival analysis",
+                "description": "Kaplan\u2013Meier curves with Greenwood log(\u2212log) intervals, the log-rank test across groups, and pairwise log-rank tests with a correction.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "curves",
+                    "logrank",
+                    "pairs"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.cox",
+                "name": "Cox regression",
+                "description": "Hazard ratios for time-to-event data: a Cox proportional hazards model of time and event (1 = event, 0 = censored) on numeric and categorical covariates (each level against a reference level), with Efron's or Breslow's handling of tied times and optional strata, each with its own baseline hazard. Reports each coefficient with its SE, Wald z and p and the hazard ratio with its interval, and the likelihood-ratio, Wald and score tests of all covariates together (statsmodels' PHReg). Differs from PHReg where it would mislead: a covariate that orders the events perfectly, or a level with no events, has no finite hazard ratio and is refused by name (PHReg warns and returns a huge coefficient); a constant or collinear covariate and data without events are refused in words (PHReg returns garbage or crashes); covariates are centred and the fit is unit-free, so a column far from zero or in tiny units keeps every digit (PHReg loses them).",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "coefficients",
+                    "tests"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.outliers",
+                "name": "Outlier detection",
+                "description": "ROUT (Prism's robust nonlinear method, or its fast version) at a false discovery rate Q, or iterative two-sided Grubbs at alpha, per group.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "flagged",
+                    "kept",
+                    "summary"
+                  ]
+                }
+              },
+              {
+                "id": "statistic.power",
+                "name": "Power / sample size",
+                "description": "Plan a study: give three of effect size, n, alpha and power and get the fourth, for a one-sample, paired or two-sample t test, a one-way ANOVA (Cohen's f, n the total) or two proportions (Cohen's h from p1 and p2, normal approximation), as statsmodels' power classes. n is given unrounded and rounded up, with the power the rounded n reaches; the curve shows power against n. No input table. Differs from statsmodels where it would mislead: power uses the noncentral survival function, not 1 \u2212 cdf (statsmodels gives 0 for a power below about 1e-16) and has no NaN where statsmodels' power is NaN (SciPy's noncentral t fails past a noncentrality of about 8, e.g. d = 1.19 at n = 93); when the smallest sample (2, or 2 per group) already has the power, that sample is the answer and says so (statsmodels returns e.g. 40 with a convergence warning); Cohen's f above 1 and alpha below 1e-12 are solved (statsmodels raises); an answer statsmodels' fallback accepts without reaching the power (d = 4.94 for 99% at n = 3; the answer is 5.58) is solved exactly. Refused in words: a power not reached with up to 10 million subjects (statsmodels gives e.g. 7.8e8), an effect size of 0, p1 = p2, a one-sided alternative against an effect on the other side, a target power not above alpha, alpha or power outside (0, 1).",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "result",
+                    "curve"
+                  ]
+                }
+              }
+            ],
+            "pages": [],
+            "records": []
+          },
+          "description": "Collapsible field groups: what to analyse and the method stay open; rarer settings sit in closed groups (Options, Resampling, Curve, Missing values, File format), and fields the chosen setting never reads are hidden. Results are unchanged.",
           "ui_api": 1
         }
       ]
