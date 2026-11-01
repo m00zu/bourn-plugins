@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-01T01:01:38Z",
+  "updated": "2026-11-01T01:08:08Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -963,6 +963,40 @@
           "notes": "Republished as bourn.script (Rill is now Bourn).",
           "core_hosted": true,
           "requires_plugins": {},
+          "ui_api": 1
+        },
+        {
+          "version": "1.0.4",
+          "sdk_version": "1",
+          "min_bourn": "0.3.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.script-v1.0.4/bourn.script-1.0.4.bournp",
+          "sha256": "be45682d400df646449c590b40e156efacad7805492c1923dd56a8e4d281d535",
+          "size": 218858,
+          "released": "2026-11-01",
+          "notes": "Clearer descriptions of what each setting does, in units. No change to what the Script node runs.",
+          "core_hosted": true,
+          "requires_plugins": {},
+          "adds": {
+            "nodes": [
+              {
+                "id": "script.python",
+                "name": "Python Script",
+                "description": "Your own Python between nodes: inputs arrive by name as Polars tables and NumPy arrays; assign each output by name. Desktop only.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "result",
+                    "printed"
+                  ]
+                }
+              }
+            ],
+            "pages": [],
+            "records": []
+          },
+          "description": "Clearer descriptions of what each setting does, in units. No change to what the Script node runs.",
           "ui_api": 1
         }
       ]
