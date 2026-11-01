@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-01T01:08:08Z",
+  "updated": "2026-11-01T01:08:18Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -2706,6 +2706,108 @@
           "notes": "The former `bourn-align` sample plugin, renamed and grown into Bourn's sequence plugin. It is a clean break: workflows\nsaved with `bourn-align`'s nodes (`align.read`, `align.kalign`, `align.save`) are not migrated; their nodes are now\n`sequence.read`, `sequence.align` and `sequence.save`. The Sequence viewer (`plot.alignment`) keeps its id.\n\n- Read sequences reads a plain text file (a Sanger read) as one sequence named after the file; one sequence per line\n  is the explicit format \"lines\".\n- Sequence sets may carry a type per row; Align refuses a set of mixed types, and a name with two sequences, naming them.\n- New: Sequences (a typed or pasted reference library and collector) and Sequence selection (the wanted stretch of a\n  read, matched against the references by bourn_sequence_native).\n- Sequence selection writes its proposal and every candidate (identity, coverage, rank, which was proposed) to its outputs\n  (`Match`, `Candidates`), so review shows what the node proposed and the run record says why a reference was picked.\n- A held review choice that no longer matches the read, the references or the Output (or is off the codons of its frame\n  when the output is protein) refuses the item in words; it is never replaced by the proposal. When no reference is clearly\n  ahead the best match's stretch is proposed, with the reference left unpicked.\n- Read sequences types each record by its letters: a file mixing DNA and protein is a mixed set with a type per row.",
           "core_hosted": false,
           "requires_plugins": {},
+          "ui_api": 1
+        },
+        {
+          "version": "0.1.1",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.sequence-v0.1.1/bourn.sequence-0.1.1.bournp",
+          "sha256": "6f99225378709fa8268c90e14ef61a79c21a070fa0186b14234f050a51611083",
+          "size": 509992,
+          "released": "2026-11-01",
+          "notes": "Clearer descriptions for the Align, Read, Save, Select and Table nodes and the Sequence viewer's parameters. No change to\nwhat any node computes.",
+          "core_hosted": false,
+          "requires_plugins": {},
+          "adds": {
+            "nodes": [
+              {
+                "id": "sequence.read",
+                "name": "Read sequences",
+                "description": "A FASTA file, or a plain text file (a Sanger read) as one sequence named after the file, as a table of name and sequence.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "sequence.table",
+                "name": "Sequences",
+                "description": "Name, sequence and type of each row, typed or pasted as FASTA. Wired sets join the rows; identical rows collapse to one, and one name with two different sequences is a conflict that Align refuses. Use it before a loop as the reference library and after it as the collector.",
+                "ports": {
+                  "inputs": [
+                    "table",
+                    "sets"
+                  ],
+                  "outputs": [
+                    "table",
+                    "orphaned"
+                  ]
+                }
+              },
+              {
+                "id": "sequence.select",
+                "name": "Sequence selection",
+                "description": "The wanted stretch of a read. Matched against the references it proposes the reference, strand, frame and stretch, running through stop codons to where the match ends; with none it proposes the longest open reading frame. Confirm or adjust it in review. Output sets DNA, RNA or protein, or follows the reference.",
+                "ports": {
+                  "inputs": [
+                    "read",
+                    "references"
+                  ],
+                  "outputs": [
+                    "table",
+                    "details",
+                    "candidates"
+                  ]
+                }
+              },
+              {
+                "id": "sequence.align",
+                "name": "Align (Kalign)",
+                "description": "A multiple sequence alignment with Kalign 3. Gap penalties at 0 take the mode's own; threads at 0 take Kalign's default.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "sequence.save",
+                "name": "Save alignment",
+                "description": "Save an alignment as FASTA, Clustal (.aln), Stockholm (.sto) or PHYLIP (.phy), from the extension.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "written"
+                  ]
+                }
+              },
+              {
+                "id": "plot.alignment",
+                "name": "Sequence viewer",
+                "description": "Sequences or an alignment as a figure: coloured residues, consensus and conservation, labels. Open it in Focus mode to zoom, recolour and label; Use this view sets what it outputs.",
+                "ports": {
+                  "inputs": [
+                    "sequences",
+                    "features"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              }
+            ],
+            "pages": [],
+            "records": []
+          },
+          "description": "Clearer descriptions for the Align, Read, Save, Select and Table nodes and the Sequence viewer's parameters. No change to",
           "ui_api": 1
         }
       ]
