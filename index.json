@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-01T01:08:18Z",
+  "updated": "2026-11-01T03:38:26Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -433,6 +433,422 @@
             "records": []
           },
           "description": "Relative expression (\u0394\u0394Cq): drops wells with no Cq, averages technical wells, uses one or more reference genes, Livak by default or Pfaffl with primer efficiencies; gives \u0394Cq, \u0394\u0394Cq, Fold and log2 Fold per sample and gene, with wells used and dropped and a note when a sample can't be computed. Percen",
+          "ui_api": 1
+        },
+        {
+          "version": "1.4.1",
+          "sdk_version": "1",
+          "min_bourn": "0.3.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.table-v1.4.1/bourn.table-1.4.1.bournp",
+          "sha256": "b77302df776e748ed62221e2db54b862874a5741e784c4374a381167afd868aa",
+          "size": 67252,
+          "released": "2026-11-01",
+          "notes": "Collapsible field groups: what to analyse and the method stay open; rarer settings sit in closed groups (Options, Resampling, Curve, Missing values, File format), and fields the chosen setting never reads are hidden. Results are unchanged.",
+          "core_hosted": true,
+          "requires_plugins": {},
+          "adds": {
+            "nodes": [
+              {
+                "id": "table.read",
+                "name": "Read table",
+                "description": "Read a delimited text table (CSV or TSV) from your workspace or the shared space.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.editor",
+                "name": "Table editor",
+                "description": "Type a table by hand, or edit an upstream table cell by cell. Edits are saved with the workflow; an edit whose row disappears upstream is reported rather than dropped.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table",
+                    "orphaned"
+                  ]
+                }
+              },
+              {
+                "id": "table.filter",
+                "name": "Filter rows",
+                "description": "Keep the rows matching one or more conditions. The reference plugin took a pandas query string; conditions here are structured, so they can be checked against the schema.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.select_columns",
+                "name": "Select columns",
+                "description": "Keep or drop the listed columns. A name containing * matches by pattern.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.sort",
+                "name": "Sort rows",
+                "description": "Sort by one or more columns. Where missing values go is an explicit choice: pandas put them last and Polars puts them first, so neither default is assumed.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.top_n",
+                "name": "Top N rows",
+                "description": "Take the N highest or lowest rows by a numeric column, and the remainder separately. Rows that tie at the cut keep their input order, so the split is reproducible.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "selected",
+                    "rest"
+                  ]
+                }
+              },
+              {
+                "id": "table.sample",
+                "name": "Random sample",
+                "description": "Draw N rows at random, and keep the remainder separately. A seed is required: the reference treated seed 0 as 'no seed', so a run could not be reproduced.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "sampled",
+                    "rest"
+                  ]
+                }
+              },
+              {
+                "id": "table.split_by_value",
+                "name": "Split by value",
+                "description": "Split rows by whether a column matches any listed value. A value containing * matches by pattern. Values are compared as text, as in the reference.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "matched",
+                    "rest"
+                  ]
+                }
+              },
+              {
+                "id": "table.drop_rows",
+                "name": "Drop rows",
+                "description": "Remove rows whose column value is one of the listed values, compared as text.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.drop_duplicates",
+                "name": "Drop duplicates",
+                "description": "Remove duplicate rows and report what was removed. 'none' drops every copy of a duplicated row, matching the reference's keep=False.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "unique",
+                    "dropped"
+                  ]
+                }
+              },
+              {
+                "id": "table.rename_columns",
+                "name": "Rename columns",
+                "description": "Rename one or more columns together using an old-name to new-name mapping.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.rename_values",
+                "name": "Rename groups",
+                "description": "Rename or merge the values of a text column. Mapping several old values to one new value merges those groups. Only text columns: casting one silently would change the schema, so use Cast columns first if you need to.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.reshape",
+                "name": "Reshape table",
+                "description": "Convert between wide and long form. Unlike the reference, long form keeps rows whose value is missing, and wide form refuses duplicate keys instead of averaging them.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.cast",
+                "name": "Cast columns",
+                "description": "Convert columns to another type. Date and datetime parsing takes an explicit format rather than guessing, so the same file cannot parse two ways on two machines.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.string_ops",
+                "name": "Text operations",
+                "description": "Apply a text operation to a column. A missing value stays missing: the reference cast the column first, which turned missing values into the literal text 'nan'.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.add_column",
+                "name": "Add column",
+                "description": "Add a text column holding one value on every row, for example the group an image belongs to. Switch Value to an input to take it from another node.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.fill_missing",
+                "name": "Drop or fill missing",
+                "description": "Remove or replace missing values. Null and NaN are different things in Polars and pandas conflated them, so this node asks which you mean rather than assuming.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.math",
+                "name": "Column maths",
+                "description": "Compute a new column from an expression, written as 'New column = ...'. Columns, numbers, + - * / ** %, parentheses, aggregates such as Area.mean(), and scientific functions such as arctanh(r) or log10(x + 1). Names with spaces take backticks. Column names are checked against the input before the expression runs.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.aggregate",
+                "name": "Aggregate",
+                "description": "Reduce numeric columns, optionally per group. 'count' counts values that are present and 'rows' counts every row: pandas called both of these count, which hid the difference.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.normalize",
+                "name": "Normalize columns",
+                "description": "Rescale numeric columns. The log methods take an explicit offset: the reference labelled them Log10 and Ln while computing log10(x+1), which mislabels the result.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.value_counts",
+                "name": "Count values",
+                "description": "Count how often each value appears in a column. Whether missing values are counted is explicit: pandas excluded them and Polars includes them, so neither default is assumed.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.group_normalize",
+                "name": "Normalize to control group",
+                "description": "Divide each group's numeric columns by its control group's mean, giving fold change, or subtract that mean (Operation), giving the difference from the control (\u0394\u0394Ct from \u0394Ct). A group whose control is missing stops the run: the reference left those rows un-normalised and indistinguishable from normalised ones. With Within set, each row is divided by the control mean of its own Within level. For display; test on the unnormalised values.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.reference_subtract",
+                "name": "Subtract reference row",
+                "description": "Subtract one row's values from every row, for background correction. The reference row itself becomes zero. Several matching rows stop the run unless you say how to combine them.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.reference_divide",
+                "name": "Divide by reference row",
+                "description": "Divide every row by one reference row, giving fold change. A reference value of zero produces a missing value: the reference left the column untouched, which reads as though it had been divided by one.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.two_table_math",
+                "name": "Two-table maths",
+                "description": "Combine one value from each of two tables. Both columns must be named: the reference fell back to row 0 of whichever numeric column happened to come first.",
+                "ports": {
+                  "inputs": [
+                    "left",
+                    "right"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.relative_expression",
+                "name": "Relative expression (\u0394\u0394Cq)",
+                "description": "Relative gene expression from qPCR Cq values, one row per well. Wells without a numeric Cq (such as 'Undetermined'), a Cq of 0 or less (no amplification), and wells with no sample or gene are dropped and counted; technical wells are averaged per sample and gene; \u0394Cq is the target's Cq minus the mean Cq of the reference genes; \u0394\u0394Cq subtracts the mean \u0394Cq of the control group; Fold is 2^\u2212\u0394\u0394Cq (Livak), or the Pfaffl ratio when efficiencies are given. \u0394Cq and \u0394\u0394Cq stay raw cycle differences even then; log2 Fold is the log2 of Fold either way, so run statistics on it. Sample names must be unique across groups (a name reused in two groups stops the run). A sample lacking a reference or target is kept with empty values and a note saying why.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.percent_of_control",
+                "name": "Percent of control",
+                "description": "Express each value as a percentage of the vehicle control: the mean of the blank rows is subtracted first (if a blank is named), then 100% is the mean of the control rows and 0% is the mean of the full-kill rows (or 0 when none is named). Only the kept rows are returned, with a Percent column and a note column (a value that is not a number gets an empty Percent and a note). A control with no rows, or equal to the 0% level, stops the run.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.concat",
+                "name": "Stack tables",
+                "description": "Stack two tables, by rows or side by side. Side by side needs both to be the same height, because there is no row index to align them on: say what should happen if they differ.",
+                "ports": {
+                  "inputs": [
+                    "top",
+                    "bottom"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.join",
+                "name": "Join tables",
+                "description": "Match rows between two tables on a key column. Expected cardinality is a parameter: a many-to-many join silently multiplies rows, and neither pandas nor Polars warns.",
+                "ports": {
+                  "inputs": [
+                    "left",
+                    "right"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "table.save",
+                "name": "Save table",
+                "description": "Write a table to a CSV or TSV file at a granted save location; the file name's extension (.csv or .tsv) picks the separator.",
+                "ports": {
+                  "inputs": [
+                    "value"
+                  ],
+                  "outputs": [
+                    "written"
+                  ]
+                }
+              }
+            ],
+            "pages": [],
+            "records": []
+          },
+          "description": "Collapsible field groups: what to analyse and the method stay open; rarer settings sit in closed groups (Options, Resampling, Curve, Missing values, File format), and fields the chosen setting never reads are hidden. Results are unchanged.",
           "ui_api": 1
         }
       ]
