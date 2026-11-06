@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-01T03:41:14Z",
+  "updated": "2026-11-06T17:22:12Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -4126,6 +4126,79 @@
           "size": 1356685,
           "released": "2026-11-01",
           "notes": "A workbook made from a file is that file plus your changes (Sheets file trail; not published).\n\n- Record format 2: a link to the source file (its place, fingerprint and name) and only the cells, sheets and styles\n  that differ from it, each edited cell with the value it had. A workbook started empty holds its own cells as before;\n  format 1 workbooks keep opening as workbooks started empty.\n- New actions to open a workbook from a file, tell whether the file is unchanged, changed or gone, save only the\n  changes, point a workbook at a file again and drop edits.\n- Removed the import and export actions: an import copied the file and an export left no record.\n- The page opens a workbook from a file (picked or dropped), shows whether the file is unchanged, changed or gone (a compare view for a changed file, nothing applied until chosen), lists your changes and the history, saves as a file through a recorded run, and lists each workbook's source and the workflows that use it.\n- New **Sheet** node: a file and a workbook's changes, as one sheet's table and as a workbook. The edits apply to the\n  file they were made to; another file with the same layout runs only a layer of formulas and labels (a value typed\n  for plate1 is never written into plate2: the run refuses and names both files). Input the formulas do not reach and\n  source sheets the file lacks are warned, never dropped silently. A run never writes the saved workbook, and states\n  the workbook revision, the file's fingerprint and what was edited as facts a recipe keeps.\n- New **Save workbook** node: a workbook (or chosen sheets) to .xlsx, or one sheet to .csv, through the write door.\n- Read sheet reads a workbook that holds its own cells, and says so when a workbook reads a file (use the Sheet node).\n- Records of format 2 are not readable by 0.1.0.",
+          "core_hosted": false,
+          "requires_plugins": {},
+          "adds": {
+            "nodes": [
+              {
+                "id": "sheets.read",
+                "name": "Read sheet",
+                "description": "Read a sheet, a range or a named range of a workbook in Sheets as a table of its computed values. It always reads the saved version you chose, so a later edit never changes a finished run.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "sheets.sheet",
+                "name": "Sheet",
+                "description": "A file and the changes made to it in Sheets, as one sheet's table and as a workbook. Give it the file to read (or leave it empty to use the workbook's own file); a recipe of formulas also runs on another file with the same layout. A value edited by hand is applied only to the file it was made to.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "table",
+                    "workbook"
+                  ]
+                }
+              },
+              {
+                "id": "sheets.save",
+                "name": "Save workbook",
+                "description": "Write a workbook to an .xlsx file (all its sheets, or the ones you list) or one of its sheets to a .csv file at a granted save location. The run records the file and where it came from.",
+                "ports": {
+                  "inputs": [
+                    "value"
+                  ],
+                  "outputs": [
+                    "written"
+                  ]
+                }
+              }
+            ],
+            "pages": [
+              {
+                "id": "sheets",
+                "title": "Bourn Sheets",
+                "description": "Open, edit and share spreadsheets, and import or export Excel files.",
+                "needs": [
+                  "records:workbook",
+                  "actions",
+                  "files.read",
+                  "files.write",
+                  "runs"
+                ]
+              }
+            ],
+            "records": [
+              {
+                "kind": "workbook",
+                "title": "Workbook"
+              }
+            ]
+          },
+          "description": "Open, edit and share spreadsheets in Bourn, and read, change and save them in a workflow."
+        },
+        {
+          "version": "0.3.0",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.sheets-v0.3.0/bourn.sheets-0.3.0.bournp",
+          "sha256": "c318805fcca08e53eef59d337b729c08440fcb570d1dfae9a0d2a4a1f4434ba3",
+          "size": 1418922,
+          "released": "2026-11-07",
+          "notes": "Live co-editing of a workbook (not published): a new line, because format 3 records cannot be read by 0.2.\n\n- Several people edit one workbook at once, each seeing the others' selected cells with their names. Changes are kept in a shared draft\n  until someone chooses **Save revision**; the draft goes on after a save. Typing in a cell, paste, fill, clear, styles, inserting, deleting\n  and moving rows and columns, sheet operations, sizes and hiding all merge by row, column and sheet, so one person's insert does not move\n  another's typing. Undo takes back only your own changes. The same cell typed by two people: the later shows and the cell's history keeps both.\n- Record format 3: who made each change. `changes.people` lists the accounts; a changed cell carries `by` (who) and `at` (when), and\n  `history` (at most three earlier edits, text up to 200 characters) where two people edited the same cell. Names are looked up when the record\n  is read, never stored. Format 2 records migrate by gaining an empty `people` list; the Sheet node and Read sheet give exactly the same sheet\n  for either (the authorship is never read by them). A page save keeps the authors of the cells it did not change.\n- Formulas in a shared draft are stored by row and column ids; when rows or columns go they read as the engine's own do (`#REF!` for a deleted\n  end), so what everyone sees is what Save writes. Names that clash are saved as \"Name (2)\".\n- New actions `live_seed` (a draft from the latest revision, no file read), `live_commit` (the next revision from file + draft: `was` always\n  comes from the file, a changed or gone file refuses, a record over 8 MB is refused with its size) and `open_draft` (read-only). `[records.live]`\n  in the manifest declares them. A workbook open in a room is not saved by anything else (relink, Apply again, the assistant's tidy wait).\n- A share editor edits a shared workbook live and saves revisions; only the owner relinks it to another file or discards the draft.\n- The Sheets tests fail without IronCalc unless `BOURN_SHEETS_ALLOW_NO_ENGINE=1` is set.",
           "core_hosted": false,
           "requires_plugins": {},
           "adds": {
