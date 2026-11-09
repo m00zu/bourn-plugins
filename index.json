@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "updated": "2026-11-09T14:18:28Z",
+  "updated": "2026-11-09T23:58:52Z",
   "plugins": {
     "bourn.table": {
       "name": "bourn.table",
@@ -4892,6 +4892,265 @@
             "records": []
           },
           "description": "First release: train, predict, evaluate, save and read models with a pure-Rust backend; PCA, UMAP, k-means; ROC, precision-recall, confusion matrix, predicted vs actual and residual plots; Train/test split with duplicate warning and Keep together. Needs bourn.statistic 1.6.2 and bourn.plot 0.8.2, an"
+        },
+        {
+          "version": "0.2.0",
+          "sdk_version": "1",
+          "min_bourn": "0.5.0",
+          "url": "https://github.com/m00zu/bourn-plugins/releases/download/bourn.ml-v0.2.0/bourn.ml-0.2.0.bournp",
+          "sha256": "7e3f54f40a63b748d7df0815c3f2713ad24547bf41839f9f92690afdfe00d892",
+          "size": 1221682,
+          "released": "2026-11-10",
+          "notes": "ROC and precision-recall plots: the axes run a little past 0 and 1, so the frame no longer hides where a curve starts and ends.",
+          "core_hosted": true,
+          "requires_plugins": {
+            "bourn.statistic": ">=1.6.2,<2",
+            "bourn.plot": ">=0.8.2,<1"
+          },
+          "adds": {
+            "nodes": [
+              {
+                "id": "ml.split",
+                "name": "Train/test split",
+                "description": "Split a table's rows into a training table and a test table, at random but repeatably: the same table, test share and seed give the same split. Train on the first and score on the second so the score is not flattered by rows the model has already seen. To keep each class's share in both parts, choose the column to stratify by (it may not have missing values). To keep every sample, subject or batch whole on one side, choose the column that names it under Keep together. Every column and the row order are kept.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "train",
+                    "test"
+                  ]
+                }
+              },
+              {
+                "id": "ml.train_logistic",
+                "name": "Train logistic regression",
+                "description": "Fit a classifier that gives each class a probability from a weighted sum of the features (L2-penalised logistic regression). Choose the target (the class of each row) and the feature columns. Also writes a training summary with the coefficients, and with cross-validation on, the score of each held-out part. Rows missing a feature or the target are left out and counted. The model goes to Predict or Save model.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "model",
+                    "summary",
+                    "folds"
+                  ]
+                }
+              },
+              {
+                "id": "ml.train_linear",
+                "name": "Train linear / ridge regression",
+                "description": "Fit a straight-line model of a number from the feature columns: ordinary least squares, or ridge regression (a penalty on large coefficients) when the strength is above 0. Also writes a training summary with the coefficients, and with cross-validation on, the score of each held-out part. This predicts new rows with Predict; for a description of one fit (p-values, intervals) use Statistic's Linear regression.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "model",
+                    "summary",
+                    "folds"
+                  ]
+                }
+              },
+              {
+                "id": "ml.train_forest",
+                "name": "Train random forest",
+                "description": "Fit many decision trees on random samples of the rows and average their votes (a random forest), to predict a class or a number. Choose Classification or Regression, the target and the feature columns. The same data, settings and seed give the same forest however many threads run. Also writes a training summary and, with cross-validation on, the score of each held-out part.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "model",
+                    "summary",
+                    "folds"
+                  ]
+                }
+              },
+              {
+                "id": "ml.train_boosting",
+                "name": "Train gradient boosting",
+                "description": "Fit small decision trees one after another, each correcting the errors of those before (histogram gradient boosting), to predict a class or a number. Choose Classification or Regression, the target and the feature columns. The same data, settings and seed give the same model however many threads run. Also writes a training summary and, with cross-validation on, the score of each held-out part.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "model",
+                    "summary",
+                    "folds"
+                  ]
+                }
+              },
+              {
+                "id": "ml.predict",
+                "name": "Predict",
+                "description": "Apply a model to a table. Adds `prediction` (a classifier's is the most probable class, in the same kind of value as the target: text, number or true/false) and, for a classifier, `score_<class>` columns holding each class's probability. The table needs the model's feature columns, as numbers; differences are named. Every row is kept in order, with empty predictions where a feature is missing. A column of the same name is refused, never overwritten. The output records the model used and whether these are the rows it was trained on, which Evaluate reports.",
+                "ports": {
+                  "inputs": [
+                    "model",
+                    "data"
+                  ],
+                  "outputs": [
+                    "table"
+                  ]
+                }
+              },
+              {
+                "id": "ml.evaluate",
+                "name": "Evaluate",
+                "description": "Score predictions against the truth. Give a table with a truth column and a prediction column; from Predict's table they are found for you. For classification: accuracy, balanced accuracy, precision, recall and F1 (overall and per class), log loss and the areas under the ROC and precision-recall curves when the class probability columns (`score_<class>`) are there, a confusion table, and ROC and precision-recall points. For regression: R\u00b2, RMSE, MSE, MAE, median absolute error, MAPE (left blank, with the reason, when a true value is 0) and explained variance, and the residuals. Rows missing the truth or the prediction are left out and counted. Says whether the rows are the ones the model was trained on: a score on those is not a test score. Outputs are tables the Plot nodes can read.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "metrics",
+                    "curve",
+                    "pr_curve",
+                    "confusion",
+                    "residuals"
+                  ]
+                }
+              },
+              {
+                "id": "ml.pca",
+                "name": "PCA (fit and apply)",
+                "description": "Principal component analysis on the numeric columns: new columns (PC1, PC2, \u2026) that capture the most variation, with the loadings and the share of variance each explains. Without a model it fits one; with a model wired in (from this node, or Read model) it applies that model's components to this table, so new data lands on the same axes. A model needs the same feature columns: differences are named. Rows missing a value keep empty scores. Statistic's PCA is the one-shot description without a model to apply later.",
+                "ports": {
+                  "inputs": [
+                    "data",
+                    "model"
+                  ],
+                  "outputs": [
+                    "scores",
+                    "loadings",
+                    "model"
+                  ]
+                }
+              },
+              {
+                "id": "ml.kmeans",
+                "name": "k-means",
+                "description": "Group rows into k clusters of similar rows (k-means). Adds a `cluster` column (numbered from 0) to the table and writes a model that Predict can apply to new rows. Rows missing a value keep an empty cluster. The same data, settings and seed give the same clusters. k-means finds round clusters of similar size; Statistic's Cluster is hierarchical.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "clusters",
+                    "model"
+                  ]
+                }
+              },
+              {
+                "id": "ml.umap",
+                "name": "UMAP",
+                "description": "Place rows on a map (2 numbers per row by default) so that rows with similar values land near each other (UMAP). Adds umap_1, umap_2, \u2026 columns to the table. Columns are not scaled: scale them first if their units differ. REPRODUCIBLE: with a seed set, the result is the same every run, and the optimiser runs on one thread (so it is slower). With reproducible off it runs on every core and the result differs from run to run. No model is kept: UMAP cannot place new rows without these ones. A row with no neighbour link, or missing a value, is left empty.",
+                "ports": {
+                  "inputs": [
+                    "data"
+                  ],
+                  "outputs": [
+                    "embedding"
+                  ]
+                }
+              },
+              {
+                "id": "ml.save_model",
+                "name": "Save model",
+                "description": "Write a model to one .bournmodel file in a granted save location. The file holds the fitted model, its settings, feature names, scaling and the scores it was given. It holds no file paths, person or lab names, and none of the rows it learned from, so it is safe to give to someone else. Read model opens it.",
+                "ports": {
+                  "inputs": [
+                    "model"
+                  ],
+                  "outputs": [
+                    "written"
+                  ]
+                }
+              },
+              {
+                "id": "ml.read_model",
+                "name": "Read model",
+                "description": "Read a .bournmodel file as a model, to give to Predict or PCA. The file is checked, never run: a file from someone else is safe to open, and one that is damaged or was written by a newer Bourn is refused in words. A file reads the same way every time, so a model keeps predicting what it predicted when it was saved.",
+                "ports": {
+                  "inputs": [],
+                  "outputs": [
+                    "model"
+                  ]
+                }
+              },
+              {
+                "id": "ml.plot_roc",
+                "name": "ROC plot",
+                "description": "Draw Evaluate's ROC curve table: one line per class (one class against the others), with the area under each curve in the legend and a dashed line for chance. Both axes cover 0 to 1, with a small margin. Long curves are drawn from at most 2,000 points per class, and the figure says so.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "ml.plot_pr",
+                "name": "Precision-recall plot",
+                "description": "Draw Evaluate's precision-recall table: one stepped line per class (one class against the others), with the average precision in the legend. Both axes cover 0 to 1, with a small margin. No baseline is drawn, because the table does not hold the share of positive rows. Long curves are drawn from at most 2,000 points per class, and the figure says so.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "ml.plot_confusion",
+                "name": "Confusion matrix plot",
+                "description": "Draw Evaluate's confusion table as a grid: the true class on the rows, the predicted class on the columns, the number written in each cell. Show the row counts, or the share of each true class (each row adds to 100%). Past 12 classes the cells are too small for numbers, so they are left out and the figure says so.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "ml.plot_predicted",
+                "name": "Predicted vs actual",
+                "description": "Draw Evaluate's residuals table as points: the true value across, the model's prediction up, with the line y = x where a perfect prediction would fall. Both axes cover the same range, so the line is the diagonal. With more than 5,000 rows a random sample is drawn, and the figure says so.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              },
+              {
+                "id": "ml.plot_residuals",
+                "name": "Residual plot",
+                "description": "Draw Evaluate's residuals table as points: the model's prediction across, the residual (true value minus prediction) up, with a line at 0. A model that fits evenly leaves a shapeless band around the line. With more than 5,000 rows a random sample is drawn, and the figure says so. For the distribution of the residuals, give the residual column to Histogram.",
+                "ports": {
+                  "inputs": [
+                    "table"
+                  ],
+                  "outputs": [
+                    "figure"
+                  ]
+                }
+              }
+            ],
+            "pages": [],
+            "records": []
+          },
+          "description": "ROC and precision-recall plots: the axes run a little past 0 and 1, so the frame no longer hides where a curve starts and ends."
         }
       ]
     }
